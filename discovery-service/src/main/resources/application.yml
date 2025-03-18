@@ -19,4 +19,3 @@ eureka:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     renewal-percent-threshold: 0.85
-    enable-self-preservation: false
