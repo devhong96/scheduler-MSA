@@ -47,6 +47,10 @@
   🔒 *이 저장소는 비공개입니다.*
 
 
+- **Scheduler Config** (환경 설정)  
+  🔒 *이 저장소는 비공개입니다.*
+
+
 - **Scheduler API Gateway Service** (API 게이트웨이)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
 
