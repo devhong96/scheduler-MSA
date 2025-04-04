@@ -1,36 +1,55 @@
-# Scheduler-MSA
+# 📅 Scheduler-MSA
+
+**각 교사와 학생의 시간대 별 수강신청 어플리케이션**
 
 ---
-## 개요
 
-각 교사와 학생의 시간대 별 수강신청 어플리케이션
+## 📌 개요
 
------
+교사와 학생의 시간대 정보를 기반으로 수업을 예약하고 관리할 수 있는 수강 신청 시스템입니다. 
 
-## 사용 기술
+마이크로서비스 아키텍처(MSA)를 적용하여 각 기능이 독립적으로 배포되고 확장 가능한 구조로 설계되었습니다.
 
-- Spring: Spring Framework, Spring Data JPA, QueryDSL
+---
+## 🏗️ 설계 특징
 
+이벤트 기반 아키텍처: Kafka를 활용한 비동기 처리로 서비스 간 결합도를 낮추고 멱등성을 보장하고 RabbitMQ와 아웃박스 이벤트를 이용하여 실패한 이벤트 관리.
 
-- Security: Spring Security, JWT
+동시성 제어: Redisson 분산 락으로 동일 시간대 예약 충돌 방지.
 
+성능 최적화: Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 
-- Cloud: Spring Cloud (Config Server, Eureka)
+장애 복원력: @CircuitBreaker로 외부 서비스 장애 시 안정성 유지.
 
-
-- Messaging: Kafka, RabbitMQ, Redis
 ---
 
-- Monitoring: Prometheus, Grafana
+## 🛠️ 사용 기술
 
+### 🧱 Framework
+- **Spring**: Spring Framework, Spring Data JPA, QueryDSL
+- **Security**: Spring Security, JWT
 
-- Containerization: Docker, Docker Compose
+### ☁️ Cloud & Messaging
+- **Spring Cloud**: Config Server, Eureka
+- **Messaging**: Kafka, RabbitMQ
+- **NoSQL**: Redis
 
+### 🗄️ Database & Storage
+- **RDBMS**: MySQL
+- **NoSQL**: Redis
 
-- CI/CD: GitHub Actions
+### 🔍 Monitoring
+- **Monitoring**: Prometheus, Grafana
 
+### 🐳 Containerization & CI/CD
+- **Containerization**: Docker, Docker Compose
+- **CI/CD**: GitHub Actions
 
-- Infrastructure: Synology NAS (개인용, MSA 환경 구축)
+### 🖥️ Infrastructure
+- **Synology NAS** (개인 서버 기반 MSA 환경 구축)
+  -  제원 : Synology 920+ 
+     - CPU: 인텔 Celeron J4125 (4코어, 2.0GHz)
+     - RAM : 20GB(4 + 16)
 
 
 ---
@@ -59,7 +78,7 @@
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
 
 
-- **Scheduler Course Service** (코스 관리)  
+- **Scheduler Course Service** (수업 관리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
 
 ---
