@@ -32,7 +32,6 @@
 ### ☁️ Cloud & Messaging
 - **Spring Cloud**: Config Server, Eureka
 - **Messaging**: Kafka, RabbitMQ
-- **NoSQL**: Redis
 
 ### 🗄️ Database & Storage
 - **RDBMS**: MySQL
