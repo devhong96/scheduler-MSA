@@ -30,7 +30,7 @@
 - **Security**: Spring Security, JWT
 
 ### ☁️ Cloud & Messaging
-- **Spring Cloud**: Config Server, Eureka
+- **Spring Cloud**: Config Server, Eureka, BootStrap, CircuitBreaker
 - **Messaging**: Kafka, RabbitMQ
 
 ### 🗄️ Database & Storage
@@ -38,7 +38,7 @@
 - **NoSQL**: Redis
 
 ### 🔍 Monitoring
-- **Monitoring**: Prometheus, Grafana
+- **Monitoring**: Actuator, Prometheus, Grafana
 
 ### 🐳 Containerization & CI/CD
 - **Containerization**: Docker, Docker Compose
