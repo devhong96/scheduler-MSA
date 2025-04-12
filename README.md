@@ -30,7 +30,7 @@
 - **Security**: Spring Security, JWT
 
 ### ☁️ Cloud & Messaging
-- **Spring Cloud**: Config Server, Eureka
+- **Spring Cloud**: Config Server, Eureka, BootStrap, CircuitBreaker
 - **Messaging**: Kafka, RabbitMQ
 
 ### 🗄️ Database & Storage
@@ -38,7 +38,7 @@
 - **NoSQL**: Redis
 
 ### 🔍 Monitoring
-- **Monitoring**: Prometheus, Grafana
+- **Monitoring**: Actuator, Prometheus, Grafana
 
 ### 🐳 Containerization & CI/CD
 - **Containerization**: Docker, Docker Compose
@@ -79,6 +79,10 @@
 
 - **Scheduler Course Service** (수업 관리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
+
+
+- **Scheduler Order Service** (주문 서비스, kakao, naver, nicepay)  
+  🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
 
 ---
 
