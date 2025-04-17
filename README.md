@@ -104,6 +104,18 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 - **Swagger 문서 (API 문서화)**  
   🔗 [Swagger UI](https://seho0218.synology.me:8087/swagger-ui/index.html)
 
+---
+## ⚙️ Scheduler-MSA Architecture Diagram
+\
+![scheduler.png](scheduler.png)
 
 ---
-![scheduler.png](scheduler.png)
+## 🛠️ 트러블 슈팅
+
+- [MSA로 전환한 계기와 설계 방향, 그리고 기준](https://dev-hong96.tistory.com/134)
+- [160만건에 이르는 데이터에 대한 조회 속도 개선](https://dev-hong96.tistory.com/133)
+- [[MSA] 각 서비스간의 인증과 보안( 비밀번호 : 4zMDQ4Nj )](https://dev-hong96.tistory.com/135)
+- [[MSA] 데이터 조회(테스트 코드 포함)](https://dev-hong96.tistory.com/136)
+- [[MSA] 컨테이너 실행 순서](https://dev-hong96.tistory.com/137)
+- [[MSA] 데이터 정합성과 멱등성](https://dev-hong96.tistory.com/138)
+
