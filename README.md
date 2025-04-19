@@ -13,21 +13,20 @@ Synology NAS를 기반으로 교사와 학생의 시간대 정보를 기반으�
 ---
 ## 🏗️ 설계 특징
 
-#### 이벤트 기반 아키텍처 
+### 이벤트 기반 아키텍처 
 
 Kafka를 활용한 비동기 처리로 서비스 간 결합도를 낮추고 멱등성을 보장.
-
 RabbitMQ와 아웃박스 이벤트를 이용하여 실패한 이벤트 관리하며 특정 서비스에서 문제가 발생하였을 경우, 보상 트랜잭션 작동.
 
-#### 동시성 제어
+### 동시성 제어
 
 Redisson 분산 락으로 동일 시간대 예약 충돌 방지.
 
-#### 성능 최적화
+### 성능 최적화
 
 Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 
-#### 장애 복원력
+### 장애 복원력
 
 @CircuitBreaker로 외부 서비스 장애 시 안정성 유지.
 
@@ -36,12 +35,13 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 ## 🛠️ 사용 기술
 
 ### 🧱 Framework
+- **Java** : 17
 - **Spring**: Spring Framework, Spring Data JPA, QueryDSL
 - **Security**: Spring Security, JWT
 
 ### ☁️ Cloud & Messaging
 - **Spring Cloud**: Config Server, Eureka, BootStrap, CircuitBreaker
-- **Messaging**: Kafka, RabbitMQ
+- **Messaging**: Kafka(ver.3.8.1), RabbitMQ
 
 ### 🗄️ Database & Storage
 - **RDBMS**: MySQL
