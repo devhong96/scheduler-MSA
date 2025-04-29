@@ -67,31 +67,35 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 ## 📌 Git 저장소 목록
 프로젝트의 각 서비스별 GitHub 저장소 링크입니다.
 
-- **Scheduler Discovery Service** (서비스 디스커버리)  
+- **Discovery Service** (서비스 디스커버리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
 
 
-- **Scheduler Config Service** (환경 설정 관리)  
+- **Config Service** (환경 설정 관리)  
   🔒 *이 저장소는 비공개입니다.*
 
 
-- **Scheduler Config** (환경 설정)  
+- **Config** (환경 설정)  
   🔒 *이 저장소는 비공개입니다.*
 
 
-- **Scheduler API Gateway Service** (API 게이트웨이)  
+- **API Gateway Service** (API Gateway)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
 
 
-- **Scheduler Member Service** (회원 관리)  
+- **Member Service** (회원 관리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
 
 
-- **Scheduler Course Service** (수업 관리)  
+- **Course Service** (수업 관리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
 
 
-- **Scheduler Order Service** (주문 서비스, kakao, naver, nicepay)  
+- **Article Service** (게시판 서비스-개발 중)  
+  🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
+
+
+- **Order Service** (주문 서비스, kakao, naver, nicepay)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
 
 ---
@@ -108,6 +112,20 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 ## ⚙️ Scheduler-MSA Architecture Diagram
 \
 ![scheduler.png](scheduler.png)
+
+---
+## 📚 참고한 강의 리스트
+
+🔗 [김영한의 스프링 로드맵](https://www.inflearn.com/roadmaps/373)
+
+🔗 [김영한의 스프링 부트와 JPA 실무 완전 정복 로드맵](https://www.inflearn.com/roadmaps/149)
+
+🔗 [Spring Cloud로 개발하는 마이크로서비스 애플리케이션(MSA)](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4)
+
+🔗 [스프링부트로 직접 만들면서 배우는 대규모 시스템 설계 - 게시판](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8%EB%A1%9C-%EB%8C%80%EA%B7%9C%EB%AA%A8-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%84%A4%EA%B3%84-%EA%B2%8C%EC%8B%9C%ED%8C%90)
+
+🔗 [대규모 트래픽 처리를 위한 부하테스트 입문/실전](https://www.inflearn.com/course/%EB%8C%80%EA%B7%9C%EB%AA%A8%ED%8A%B8%EB%9E%98%ED%94%BD-%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%85%EB%AC%B8-%EC%8B%A4%EC%A0%84)
+
 
 ---
 ## 🛠️ 트러블 슈팅
