@@ -67,6 +67,8 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 ## 📌 Git 저장소 목록
 프로젝트의 각 서비스별 GitHub 저장소 링크입니다.
 
+### 🛠️ Infra
+
 - **Discovery Service** (서비스 디스커버리)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
 
@@ -78,25 +80,34 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 - **Config** (환경 설정)  
   🔒 *이 저장소는 비공개입니다.*
 
+---
 
-- **API Gateway Service** (API Gateway)  
+
+### 🚀 Application Services
+
+- **API Gateway Service**  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
+  <span style="color: #888;">Spring Cloud Gateway 기반</span>
 
 
-- **Member Service** (회원 관리)  
+- **Member Service**  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
+  <span style="color: #888;">사용자 계정, 인증 및 권한 관리</span>
 
 
-- **Course Service** (수업 관리)  
+- **Course Service**  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
+  <span style="color: #888;">수업 일정 생성 및 관리</span>
 
 
-- **Article Service** (게시판 서비스-개발 중)  
+- **Article Service**(개발 중)  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
+  <span style="color: #888;">문의사항 및 게시판 관리.</span>
 
 
-- **Order Service** (주문 서비스, kakao, naver, nicepay)  
+- **Order Service**   
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
+  <span style="color: #888;">Kakao, Naver, NicePay와 연동된 결제 처리</span>
 
 ---
 
