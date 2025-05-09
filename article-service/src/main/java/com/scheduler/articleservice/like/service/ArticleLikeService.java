@@ -49,6 +49,15 @@ public class ArticleLikeService {
     }
 
     @Transactional
+    public void unlikePessimisticLock1(Long articleId, String memberId) {
+        articleLikeRepository.findByArticleIdAndMemberId(articleId, memberId)
+                .ifPresent(articleLike -> {
+                    articleLikeRepository.delete(articleLike);
+                    articleLikeCountRepository.decrease(articleId);
+                });
+    }
+
+    @Transactional
     public void likePessimisticLock2(Long articleId, String memberId) {
         articleLikeRepository.save(
                 ArticleLike.create(
