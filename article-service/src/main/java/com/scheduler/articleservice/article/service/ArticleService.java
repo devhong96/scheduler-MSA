@@ -31,6 +31,14 @@ public class ArticleService {
                         request.getMemberId())
         );
 
+        int result = boardArticleCountRepository.increase(request.getBoardId());
+
+        if (result == 0) {
+            boardArticleCountRepository.save(
+                    BoardArticleCount.init(request.getBoardId(), 1L)
+            );
+        }
+
         return ArticleResponse.from(article);
     }
 
