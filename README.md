@@ -41,7 +41,7 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 
 ### ☁️ Cloud & Messaging
 - **Spring Cloud**: Config Server, Eureka, BootStrap, CircuitBreaker
-- **Messaging**: Kafka(ver.3.8.1), RabbitMQ
+- **Messaging**: Kafka 3.9, RabbitMQ
 
 ### 🗄️ Database & Storage
 - **RDBMS**: MySQL
