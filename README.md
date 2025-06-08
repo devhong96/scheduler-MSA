@@ -59,7 +59,7 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
   -  제원 : Synology 920+ 
      - CPU: 인텔 Celeron J4125 (4코어, 2.0GHz)
      - RAM : 20GB(4 + 16)
-  - 네트워크 : 가정용 네트워크 500Mbps (공유기 : Iptime a5004ns + Iptime a6004mx(nas 연결) 메쉬 와이파이 구성)
+  - 네트워크 : 가정용 네트워크 500Mbps (공유기 : Iptime a5004ns)
 
 
 ---
@@ -84,7 +84,7 @@ Redis 캐싱을 통해 빈번한 스케줄 조회 속도 개선.
 ---
 
 
-### 🚀 Application Services
+### 🚀 Application Services Repository
 
 - **API Gateway Service**  
   🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
