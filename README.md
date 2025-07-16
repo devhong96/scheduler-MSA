@@ -10,10 +10,11 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 ## 🚀 서비스 엔드포인트
 - **Eureka 서버 (서비스 디스커버리)**  
   🔗 [Eureka Dashboard](https://seho0218.synology.me:8762/)
-<br>
+
+
 - **Swagger 문서 (API 문서화)**  
   🔗 [Swagger UI](https://seho0218.synology.me:8087/swagger-ui/index.html)
-
+<br>
 ---
 ## 🛠️ 트러블 슈팅
 
@@ -53,13 +54,14 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 ---
 ### 🛠️ 기술 스택 (Tech Stack)
 
-| 구분                | 기술                                                                                             |
-| :---------------- | :--------------------------------------------------------------------------------------------- |
-| **Backend**       | Java 17, Spring Boot 3, JPA, QueryDSL, Spring Security 6, JWT                                  |
-| **Infra & Cloud** | Spring Cloud 4.x (Eureka, Config, Gateway, BootStrap, CircuitBreaker), Kafka (3.8.x), RabbitMQ |
-| **Database**      | MySQL 8.0, Redis                                                                               |
-| **DevOps**        | Docker, Docker-Compose, GitHub Actions, Docker Hub, Synology NAS (DSM)                         |
-| **Monitoring**    | Prometheus, Grafana, Spring Boot Actuator                                                      |
+| 구분             | 기술                                                                                         |
+|:---------------|:---------------------------------------------------------------------------------------------|
+| **Backend**    | Java 17, Spring Boot 3, JPA, QueryDSL, Spring Security 6, JWT                                |
+| **MQ**         | Kafka (3.8.x), RabbitMQ                                                                      |
+| **Cloud**      | Spring Cloud 4.x (Eureka, Config, Gateway, BootStrap, CircuitBreaker)                        |
+| **Database**   | MySQL 8.0, Redis                                                                             |
+| **DevOps**     | Docker, Docker-Compose, GitHub Actions, Docker Hub, Synology NAS (DSM)                       |
+| **Monitoring** | Prometheus, Grafana, Spring Boot Actuator                                                    |
 
 ### 🖥️ Infrastructure
 - **Synology NAS** (개인 서버 기반 MSA 환경 구축)
@@ -112,9 +114,13 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 ## 📚 참고한 강의 리스트
 
 🔗 [김영한의 스프링 로드맵](https://www.inflearn.com/roadmaps/373)
+
 🔗 [김영한의 스프링 부트와 JPA 실무 완전 정복 로드맵](https://www.inflearn.com/roadmaps/149)
+
 🔗 [Spring Cloud로 개발하는 마이크로서비스 애플리케이션(MSA)](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EB%A7%88%EC%9D%B4%ED%81%AC%EB%A1%9C%EC%84%9C%EB%B9%84%EC%8A%A4)
+
 🔗 [스프링부트로 직접 만들면서 배우는 대규모 시스템 설계 - 게시판](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81%EB%B6%80%ED%8A%B8%EB%A1%9C-%EB%8C%80%EA%B7%9C%EB%AA%A8-%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%84%A4%EA%B3%84-%EA%B2%8C%EC%8B%9C%ED%8C%90)
+
 🔗 [대규모 트래픽 처리를 위한 부하테스트 입문/실전](https://www.inflearn.com/course/%EB%8C%80%EA%B7%9C%EB%AA%A8%ED%8A%B8%EB%9E%98%ED%94%BD-%EB%B6%80%ED%95%98%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%85%EB%AC%B8-%EC%8B%A4%EC%A0%84)
 
 
