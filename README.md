@@ -20,18 +20,20 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 ## 🛠️ 트러블 슈팅
 
-- [MSA로 전환한 계기와 설계 방향, 그리고 기준](https://dev-hong96.tistory.com/134)<br><br>
+- [MSA로 전환한 계기와 설계 방향, 그리고 기준](https://dev-hong96.tistory.com/134)<br>
 
-- [160만건에 이르는 데이터에 대한 조회 속도 개선](https://dev-hong96.tistory.com/141)<br><br>
+- [160만건에 이르는 데이터에 대한 조회 속도 개선](https://dev-hong96.tistory.com/141)<br>
 
-- [[MSA] 각 서비스간의 인증과 보안( 비밀번호 : 4zMDQ4Nj )](https://dev-hong96.tistory.com/135)<br><br>
+- [[MSA] 각 서비스간의 인증과 보안( 비밀번호 : 4zMDQ4Nj )](https://dev-hong96.tistory.com/135)<br>
 
-- [[MSA] 데이터 조회(테스트 코드 포함)](https://dev-hong96.tistory.com/136)<br><br>
+- [[MSA] 데이터 조회(테스트 코드 포함)](https://dev-hong96.tistory.com/136)<br>
 
-- [[MSA] 컨테이너 실행 순서](https://dev-hong96.tistory.com/137)<br><br>
+- [[MSA] 컨테이너 실행 순서](https://dev-hong96.tistory.com/137)<br>
 
-- [[MSA] 데이터 정합성과 멱등성](https://dev-hong96.tistory.com/138)<br><br>
+- [[MSA] 데이터 정합성과 멱등성](https://dev-hong96.tistory.com/138)<br>
 
+<br><br><br><br>
+<br><br><br>
 
 ---
 ## 🏗️ 설계 특징
@@ -75,35 +77,41 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
      - CPU: intel CeleronJ4125 (4C 4T, Base 2.0GHz, Boost 2.70 GHz)
      - RAM : 20GB(4 + 16)
   - 네트워크 : 가정용 네트워크 500Mbps (공유기 : iptime a5004ns)
-<br>
 
 ---
 ## ⚙️ Scheduler-MSA Architecture Diagram
 
 ![scheduler.png](scheduler.png)
 
-<br><br><br><br>
+<br><br>
+<br><br>
 
 ---
 ## 📌 Git 저장소 목록
 
 ### 🛠️ Infra
 
-- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)<br><br>
+- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
+
 - **Config Service** (환경 설정 관리)  
-  🔒 *이 저장소는 비공개입니다.*<br><br>
+  🔒 *이 저장소는 비공개입니다.*
+
 - **Config** (환경 설정)  
   🔒 *이 저장소는 비공개입니다.*
 ---
 ### 🚀 Application Services Repository
 
-- **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)<br><br>
+- **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
+ 
 
-- **Member Service**<span style="color: #888;"> 사용자 계정, 인증 및 권한 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)<br><br>
+- **Member Service**<span style="color: #888;"> 사용자 계정, 인증 및 권한 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
 
-- **Course Service**<span style="color: #888;"> 수업 일정 생성 및 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)<br><br>
 
-- **Article Service**(개발 중)<span style="color: #888;"> 문의사항 및 게시판 관리.</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)<br><br>
+- **Course Service**<span style="color: #888;"> 수업 일정 생성 및 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
+
+
+- **Article Service**(개발 중)<span style="color: #888;"> 문의사항 및 게시판 관리.</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
+
 
 - **Order Service**<span style="color: #888;"> Kakao, Naver, NicePay와 연동된 결제 처리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
 
