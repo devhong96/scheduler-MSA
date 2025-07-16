@@ -20,9 +20,9 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 ## 🛠️ 트러블 슈팅
 
-- [MSA로 전환한 계기와 설계 방향, 그리고 기준](https://dev-hong96.tistory.com/134)<br>
+- [조회 성능(속도)에 따른 Redis와 인덱스 비교 분석](https://dev-hong96.tistory.com/141)<br>
 
-- [160만건에 이르는 데이터에 대한 조회 속도 개선](https://dev-hong96.tistory.com/141)<br>
+- [MSA로 전환한 계기와 기준, 설계 방향](https://dev-hong96.tistory.com/134)<br>
 
 - [[MSA] 각 서비스간의 인증과 보안( 비밀번호 : 4zMDQ4Nj )](https://dev-hong96.tistory.com/135)<br>
 
