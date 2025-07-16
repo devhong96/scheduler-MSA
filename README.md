@@ -32,9 +32,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 - [[MSA] 데이터 정합성과 멱등성](https://dev-hong96.tistory.com/138)<br><br>
 
-[//]: # (<br><br><br><br><br>)
-
-[//]: # (<br><br><br><br>)
 
 ---
 ## 🏗️ 설계 특징
@@ -78,13 +75,14 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
      - CPU: intel CeleronJ4125 (4C 4T, Base 2.0GHz, Boost 2.70 GHz)
      - RAM : 20GB(4 + 16)
   - 네트워크 : 가정용 네트워크 500Mbps (공유기 : iptime a5004ns)
+<br>
 
 ---
 ## ⚙️ Scheduler-MSA Architecture Diagram
 
 ![scheduler.png](scheduler.png)
 
-[//]: # (<br><br><br><br>)
+<br><br><br><br>
 
 ---
 ## 📌 Git 저장소 목록
