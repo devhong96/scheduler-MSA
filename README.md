@@ -17,25 +17,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 <br>
 
 ---
-
-## 🛠️ 트러블 슈팅
-
-- [조회 성능(속도)에 따른 Redis와 인덱스 비교 분석](https://dev-hong96.tistory.com/141)<br>
-
-- [MSA로 전환한 계기와 기준, 설계 방향](https://dev-hong96.tistory.com/134)<br>
-
-- [[MSA] 각 서비스간의 인증과 보안( 비밀번호 : 4zMDQ4Nj )](https://dev-hong96.tistory.com/135)<br>
-
-- [[MSA] 데이터 조회(테스트 코드 포함)](https://dev-hong96.tistory.com/136)<br>
-
-- [[MSA] 컨테이너 실행 순서](https://dev-hong96.tistory.com/137)<br>
-
-- [[MSA] 데이터 정합성과 멱등성](https://dev-hong96.tistory.com/138)<br>
-
-<br><br><br><br>
-<br><br><br>
-
----
 ## 🏗️ 설계 특징
 
 #### **사용자 관리 (Member Management)**
