@@ -14,9 +14,26 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 - **Swagger 문서 (API 문서화)**  
   🔗 [Swagger UI](https://seho0218.synology.me:8087/swagger-ui/index.html)
 
-<br>
+---
+### 🛠️ 기술 스택 (Tech Stack)
+
+| 구분             | 기술                                                                     |
+| :------------- | :--------------------------------------------------------------------- |
+| **Backend**    | Java 17, Spring Boot 3, JPA, QueryDSL, Spring Security 6, JWT          |
+| **MQ**         | Kafka (3.8.x), RabbitMQ                                                |
+| **Cloud**      | Spring Cloud 4.x (Eureka, Config, Gateway, BootStrap, CircuitBreaker)  |
+| **Database**   | MySQL 8.0, Redis                                                       |
+| **DevOps**     | Docker, Docker-Compose, GitHub Actions, Docker Hub, Synology NAS (DSM) |
+| **Monitoring** | Prometheus, Grafana, Spring Boot Actuator                              |
+### 🖥️ Infrastructure
+- **Synology NAS** (개인 서버 기반 MSA 환경 구축)
+    -  Hardware : Synology 920+
+        - CPU: intel CeleronJ4125 (4C 4T, Base 2.0GHz, Boost 2.70 GHz)
+        - RAM : 20GB(4 + 16)
+    - 네트워크 : 가정용 네트워크 500Mbps (공유기 : iptime a5004ns)
 
 ---
+
 ## 🏗️ 설계 특징
 
 #### **사용자 관리 (Member Management)**
@@ -41,44 +58,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 - **신뢰성 있는 데이터 처리**: Kafka와 RabbitMQ 기반의 비동기 이벤트를 통해 결제, 예약 등의 데이터를 안정적으로 처리
 
----
-### 🛠️ 기술 스택 (Tech Stack)
-
-| 구분             | 기술                                                                     |
-| :------------- | :--------------------------------------------------------------------- |
-| **Backend**    | Java 17, Spring Boot 3, JPA, QueryDSL, Spring Security 6, JWT          |
-| **MQ**         | Kafka (3.8.x), RabbitMQ                                                |
-| **Cloud**      | Spring Cloud 4.x (Eureka, Config, Gateway, BootStrap, CircuitBreaker)  |
-| **Database**   | MySQL 8.0, Redis                                                       |
-| **DevOps**     | Docker, Docker-Compose, GitHub Actions, Docker Hub, Synology NAS (DSM) |
-| **Monitoring** | Prometheus, Grafana, Spring Boot Actuator                              |
-### 🖥️ Infrastructure
-- **Synology NAS** (개인 서버 기반 MSA 환경 구축)
-  -  Hardware : Synology 920+ 
-     - CPU: intel CeleronJ4125 (4C 4T, Base 2.0GHz, Boost 2.70 GHz)
-     - RAM : 20GB(4 + 16)
-  - 네트워크 : 가정용 네트워크 500Mbps (공유기 : iptime a5004ns)
-
----
-## ⚙️ Scheduler-MSA Architecture Diagram
-
-![scheduler.png](scheduler.png)
-
-<br><br>
-<br><br>
-
----
-## 📌 Git 저장소 목록
-
-### 🛠️ Infra
-
-- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
-
-- **Config Service** (환경 설정 관리)  
-  🔒 *이 저장소는 비공개입니다.*
-
-- **Config** (환경 설정)  
-  🔒 *이 저장소는 비공개입니다.*
 ---
 ### 기본 기능
 
@@ -115,7 +94,29 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 - 누구나 관리자 아이디에 접근이 가능하도록 되어있기 때문에 주기적(1시간) 단위로 비밀번호가 README의 로그인 정보에 있는 비밀번호로 갱신되며 실제로 서비스할 경우, 이 기능은 탑재되지 않는다.
 - 입력한 이메일과 아이디를 바탕으로 아이디 찾기 및 비밀번호 찾기가 가능하다.
 - 아이디는 가입시 입력한 이메일로 gmail을 통해 전송되며 비밀번호도 마찬가지로 가입시 입력한 gmail을 통해 발송된 인증번호를 바탕으로 비밀번호를 재설정할 수 있다.
+
 ---
+
+## ⚙️ Scheduler-MSA Architecture Diagram
+
+![scheduler.png](scheduler.png)
+
+
+---
+## 📌 Git 저장소 목록
+
+### 🛠️ Infra
+
+- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
+
+- **Config Service** (환경 설정 관리)  
+  🔒 *이 저장소는 비공개입니다.*
+
+- **Config** (환경 설정)  
+  🔒 *이 저장소는 비공개입니다.*
+
+---
+
 ### 🚀 Application Services Repository
 
 - **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
