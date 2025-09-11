@@ -2,7 +2,7 @@
 
 Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리할 수 있는 수강 신청 어플리케이션입니다. 
 
-  이 프로젝트는 1년전, **모놀리식**에서 시작하여 **마이크로서비스**(MSA)로 조금씩 전환되는 과정을 기록하고 있습니다. 각 기능은 독립적으로 배포되고 확장 가능한 구조로 재설계 되었으며, 주문 서비스를 제외한 각 서비스 API에 대하여 테스트 케이스가 작성되어 있습니다.
+  이 프로젝트는 2023년에 **모놀리식**에서 시작하여 **마이크로서비스**(MSA)로 조금씩 전환되는 과정을 기록하고 있습니다. 각 기능은 독립적으로 배포되고 확장 가능한 구조로 재설계 되었으며, 주문 서비스를 제외한 각 서비스 API에 대하여 테스트 케이스가 작성되어 있습니다.
 
 **🔗 모놀리식 버전 GitHub 저장소**: https://github.com/devhong96/scheduler
 
@@ -31,6 +31,64 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
         - CPU: intel CeleronJ4125 (4C 4T, Base 2.0GHz, Boost 2.70 GHz)
         - RAM : 20GB(4 + 16)
     - 네트워크 : 가정용 네트워크 500Mbps (공유기 : iptime a5004ns)
+
+---
+
+## ⚙️ Scheduler-MSA Architecture Diagram
+
+![scheduler.png](scheduler.png)
+
+
+---
+## 📌 Git 저장소 목록
+
+### 🛠️ Infra
+
+- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
+
+- **Config Service** (환경 설정 관리)  
+  🔒 *이 저장소는 비공개입니다.*
+
+- **Config** (환경 설정)  
+  🔒 *이 저장소는 비공개입니다.*
+
+---
+
+### 🚀 Application Services Repository
+
+- **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
+ 
+
+- **Member Service**<span style="color: #888;"> 사용자 계정, 인증 및 권한 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
+
+
+- **Course Service**<span style="color: #888;"> 수업 일정 생성 및 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
+
+
+- **Article Service**(개발 중)<span style="color: #888;"> 문의사항 및 게시판 관리.</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
+
+
+- **Order Service**<span style="color: #888;"> Kakao, Naver, NicePay와 연동된 결제 처리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
+
+---
+
+1차 개발  2023.04 ~ 2024.05
+- Synology NAS를 이용한 사용자/수업 예약 관리 DB 설계
+- Thymeleaf를 사용한 단일 애플리케이션 구조로 통합 개발
+- jar파일을 시놀로지에 업로드하여 Shell Script로 직접 실행
+
+2차 개발  2025.02 ~ 2025.05
+- 모놀리식 구조로 되어 있던 애플리케이션을 Spring Cloud를 활용하여 MSA로 전환
+- GitHub 커밋시, GitHub Actions에서 Kafka·Redis 등 외부서비스는 서비스 컨테이너를 이용하여 테스트 통과 시 Docker Hub로 이미지 푸시하도록 구성
+- API Gateway에서 JWT 유효성을 검사하고, 상세 사용자 정보가 필요한 서비스는 OpenFeign을 통해 Member Service로 토큰을 전달하여 Spring Security 인증 후, 정보를 반환하도록 구성
+- JPA의 N+1 문제와 페이징 성능 저하를 해결하기 위해 UUID를 외래 키로 도입하여 연관관계 매핑을 최소화하고 QueryDSL Projections를 DTO 조회에 활용하여 데이터 전송량, 최대 85% 절감
+- jUnit 5와 Mockito를 이용하여 외부 서비스는 Stub 처리하여 의존성을 제어하고, 핵심 비즈니스 로직 테스트 50건 이상 작성
+
+3차 개발  2025.07 ~
+- 대규모 트래픽에 유연하게 대응할 수 있도록 RestTemplate 기반 결제 호출을 WebClient로 전환하고 결제 로직을 별도 모듈로 분리
+- 결제 시스템의 설정 변동사항을 감안하여 PG사별 Header·Properties를 YAML로 관리 표준화
+- Factory·Strategy 패턴 도입으로 결제 로직을 인터페이스화하고 코드 변경 없이 신규 PG사를 확장할 수 있는 결제 모듈 설계
+- Outbox 패턴을 적용하여 이벤트를 DB에 저장하면 트랜잭션 커밋 후, 비동기 발행으로 큐 장애 시에도 유실 없이 재전송 가능하도록 구성
 
 ---
 
@@ -97,43 +155,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 ---
 
-## ⚙️ Scheduler-MSA Architecture Diagram
-
-![scheduler.png](scheduler.png)
-
-
----
-## 📌 Git 저장소 목록
-
-### 🛠️ Infra
-
-- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
-
-- **Config Service** (환경 설정 관리)  
-  🔒 *이 저장소는 비공개입니다.*
-
-- **Config** (환경 설정)  
-  🔒 *이 저장소는 비공개입니다.*
-
----
-
-### 🚀 Application Services Repository
-
-- **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
- 
-
-- **Member Service**<span style="color: #888;"> 사용자 계정, 인증 및 권한 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
-
-
-- **Course Service**<span style="color: #888;"> 수업 일정 생성 및 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
-
-
-- **Article Service**(개발 중)<span style="color: #888;"> 문의사항 및 게시판 관리.</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
-
-
-- **Order Service**<span style="color: #888;"> Kakao, Naver, NicePay와 연동된 결제 처리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
-
----
 ## 📚 참고한 강의
 
 🔗 [김영한의 스프링 로드맵](https://www.inflearn.com/roadmaps/373)
