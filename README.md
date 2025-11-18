@@ -9,6 +9,30 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 **🔗 모놀리식 버전 배포 링크**: https://seho0218.synology.me:3206
 
 ---
+## 📌 Git 저장소 목록
+
+### 🛠️ Infra
+
+
+  | Service | Description | Status / Repository |
+  | :--- | :--- | :--- |
+  | **Discovery Service** | 서비스 디스커버리 | 🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service) |
+  | **Config Service** | 환경 설정 관리 | 🔒 비공개 |
+  | **Config** | 환경 설정 | 🔒 비공개 |
+
+
+### 🚀 Application Services Repository
+
+| Service | Description | Repository                                                             |
+| :--- | :--- |:-----------------------------------------------------------------------|
+| **API Gateway Service** | Spring Cloud Gateway 기반 | [🔗 GitHub](https://github.com/devhong96/scheduler-apigateway-service) |
+| **Member Service** | 사용자 계정, 인증 및 권한 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-member-service)     |
+| **Course Service** | 수업 일정 생성 및 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-course-service)     |
+| **Article Service** (개발 중) | 문의사항 및 게시판 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-article-service)    |
+| **Order Service** | Kakao, Naver, NicePay와 연동된 결제 처리 | [🔗 GitHub](https://github.com/devhong96/scheduler-order-service)      |
+
+---
+
 ## 🚀 서비스 엔드포인트
 - **Eureka 서버 (서비스 디스커버리)**  
   🔗 [Eureka Dashboard](https://seho0218.synology.me:8762/)<br><br>
@@ -40,37 +64,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 ![scheduler.png](scheduler.png)
 
-
----
-## 📌 Git 저장소 목록
-
-### 🛠️ Infra
-
-- **Discovery Service** (서비스 디스커버리)<br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service)
-
-- **Config Service** (환경 설정 관리)  
-  🔒 *이 저장소는 비공개입니다.*
-
-- **Config** (환경 설정)  
-  🔒 *이 저장소는 비공개입니다.*
-
----
-
-### 🚀 Application Services Repository
-
-- **API Gateway Service**<span style="color: #888;"> Spring Cloud Gateway 기반</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-apigateway-service)
- 
-
-- **Member Service**<span style="color: #888;"> 사용자 계정, 인증 및 권한 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-member-service)
-
-
-- **Course Service**<span style="color: #888;"> 수업 일정 생성 및 관리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-course-service)
-
-
-- **Article Service**(개발 중)<span style="color: #888;"> 문의사항 및 게시판 관리.</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-article-service)
-
-
-- **Order Service**<span style="color: #888;"> Kakao, Naver, NicePay와 연동된 결제 처리</span><br>🔗 [GitHub Repository](https://github.com/devhong96/scheduler-order-service)
 
 ---
 
