@@ -41,7 +41,8 @@ public class CourseMessageService {
         try {
             courseScheduleService.updateSchedule(courseMessage);
         } finally {
-            lock.unlock();
+            if(lock.isHeldByCurrentThread())
+                lock.unlock();
         }
     }
 }
