@@ -6,8 +6,6 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 
 **🔗 모놀리식 버전 GitHub 저장소**: https://github.com/devhong96/scheduler
 
-**🔗 모놀리식 버전 배포 링크**: https://seho0218.synology.me:3206
-
 ---
 ## 📌 Git 저장소 목록
 
