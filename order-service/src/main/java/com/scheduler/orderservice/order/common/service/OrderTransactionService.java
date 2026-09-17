@@ -57,15 +57,17 @@ public class OrderTransactionService {
         
         Vendor vendor = orders.getVendor();
 
-        //TODO amountToCancel, taxToCancel
-
         // 1. 빠른 조회를 위해 취소할 productId 목록을 Set으로 만듭니다.
         Set<String> productIdsToCancel = cancelOrderRequest.getSingleCancelOrders().stream()
                 .map(SingleCancelOrder::getProductId)
                 .collect(Collectors.toSet());
 
         // 2. DB에서 가져온 주문 목록에서 취소할 productId를 가진 주문만 필터링하고 합산합니다.
-        int amountToCancel = 0;
+        int amountToCancel = ordersList.stream()
+                // 취소 요청 Set에 포함된 productId만 필터링합니다.
+                .filter(orderItems -> productIdsToCancel.contains(orderItems.getProductId()))
+                .mapToInt(orderItems -> orderItems.getPrice() * orderItems.getQuantity())
+                .sum();
 
         int taxToCancel = 0;
 

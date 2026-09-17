@@ -56,13 +56,13 @@ class KakaoOrderServiceTest {
 
         String expectedKakaoApiResponse = """
         {
-            "next_redirect_app_url": https://.../mobile-app/pg/one-time/payment,
-            "next_redirect_mobile_url": https://.../mobile-web/pg/one-time/payment,
-            "next_redirect_pc_url": https://.../pc/pg/one-time/payment"
+            "next_redirect_app_url": "https://.../mobile-app/pg/one-time/payment",
+            "next_redirect_mobile_url": "https://.../mobile-web/pg/one-time/payment",
+            "next_redirect_pc_url": "https://.../pc/pg/one-time/payment""
         }
         """;
 
-        wireMockServer.stubFor(post(urlEqualTo("https://open-api.kakaopay.com/online/v1/payment/ready"))
+        wireMockServer.stubFor(post(urlEqualTo("/online/v1/payment/ready"))
                 .withHeader("Authorization", matching("KakaoAK .*"))
                 .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded;charset=UTF-8"))
 
