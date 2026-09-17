@@ -9,9 +9,6 @@ import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
 import com.scheduler.memberservice.infra.security.jwt.domain.RefreshToken;
 import com.scheduler.memberservice.infra.security.jwt.dto.JwtTokenDto;
 import com.scheduler.memberservice.infra.security.jwt.dto.UsernamePasswordAutoDto;
-import com.scheduler.memberservice.member.admin.domain.Admin;
-import com.scheduler.memberservice.member.student.domain.Student;
-import com.scheduler.memberservice.member.teacher.domain.Teacher;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,10 +22,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.util.Date;
 
 import static com.scheduler.memberservice.infra.security.jwt.filter.CreateCookie.createCookie;
 import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -68,50 +65,39 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         JwtTokenDto jwtTokenDto = jwtUtils.generateToken(authResult);
 
-        String refreshTokenValue = jwtTokenDto.getRefreshToken();
-        Date expiresDate = jwtTokenDto.getExpiresDate();
+        String userId = resolveUserId(authResult.getPrincipal());
 
-        if (authResult.getPrincipal() instanceof StudentDetails) {
+        if (userId != null) {
+            // 재로그인 시 기존 토큰을 폐기하고 새로 발급한 토큰으로 교체한다.
+            refreshTokenJpaRepository.findRefreshTokenByUserId(userId)
+                    .ifPresent(token -> refreshTokenJpaRepository.deleteByRefreshToken(token.getRefreshToken()));
 
-            Student student = ((StudentDetails) authResult.getPrincipal()).getStudent();
-            String studentId = student.getStudentId();
+            refreshTokenJpaRepository.save(new RefreshToken(
+                    userId, jwtTokenDto.getRefreshToken(), jwtTokenDto.getExpiresDate()));
 
-            RefreshToken refreshToken = refreshTokenJpaRepository
-                    .findRefreshTokenByUserId(studentId)
-                    .orElseGet(() -> refreshTokenJpaRepository.save(new RefreshToken(studentId, refreshTokenValue, expiresDate)));
-
-            response.addCookie(createCookie(refreshToken.getRefreshToken()));
-
+            response.addCookie(createCookie(jwtTokenDto.getRefreshToken()));
         }
 
-        if (authResult.getPrincipal() instanceof TeacherDetails) {
-
-            Teacher teacher = ((TeacherDetails) authResult.getPrincipal()).getTeacher();
-            String teacherId = teacher.getTeacherId();
-
-            RefreshToken refreshToken = refreshTokenJpaRepository
-                    .findRefreshTokenByUserId(teacherId)
-                    .orElseGet(() -> refreshTokenJpaRepository.save(new RefreshToken(teacherId, refreshTokenValue, expiresDate)));
-
-            response.addCookie(createCookie(refreshToken.getRefreshToken()));
-
-        }
-
-        if (authResult.getPrincipal() instanceof AdminDetails) {
-
-            Admin admin = ((AdminDetails) authResult.getPrincipal()).getAdmin();
-            String adminId = admin.getAdminId();
-
-            RefreshToken refreshToken = refreshTokenJpaRepository
-                    .findRefreshTokenByUserId(adminId)
-                    .orElseGet(() -> refreshTokenJpaRepository.save(new RefreshToken(adminId, refreshTokenValue, expiresDate)));
-
-            response.addCookie(createCookie(refreshToken.getRefreshToken()));
-
-        }
-        
-        response.setHeader("Authorization", jwtTokenDto.getAccessToken());
+        response.setHeader(AUTHORIZATION, jwtTokenDto.getAccessToken());
         response.setStatus(HttpStatus.OK.value());
+    }
+
+    private String resolveUserId(Object principal) {
+
+        if (principal instanceof StudentDetails studentDetails) {
+            return studentDetails.getStudent().getStudentId();
+        }
+
+        if (principal instanceof TeacherDetails teacherDetails) {
+            return teacherDetails.getTeacher().getTeacherId();
+        }
+
+        if (principal instanceof AdminDetails adminDetails) {
+            return adminDetails.getAdmin().getAdminId();
+        }
+
+        log.warn("알 수 없는 principal 타입: {}", principal.getClass().getName());
+        return null;
     }
 
     @Override

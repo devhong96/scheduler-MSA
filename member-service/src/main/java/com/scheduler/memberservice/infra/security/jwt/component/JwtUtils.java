@@ -65,8 +65,8 @@ public class JwtUtils {
         String auth = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","))
-                .substring(5);
+                .map(authority -> authority.replaceFirst("^ROLE_", ""))
+                .collect(Collectors.joining(","));
 
         return new JwtTokenDto(
                 generateToken(username, auth, "access", jwtConfig.getAccessTokenPeriod()),

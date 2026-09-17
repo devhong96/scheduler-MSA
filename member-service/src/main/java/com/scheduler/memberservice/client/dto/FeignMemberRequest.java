@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 import static jakarta.persistence.EnumType.STRING;
 
 public class FeignMemberRequest {
@@ -16,7 +18,7 @@ public class FeignMemberRequest {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CourseExistenceResponse {
+    public static class CourseExistenceResponse implements Serializable {
 
         private Boolean exists;
 
@@ -26,7 +28,7 @@ public class FeignMemberRequest {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CourseReassignmentResponse {
+    public static class CourseReassignmentResponse implements Serializable {
 
         private Boolean exists;
     }

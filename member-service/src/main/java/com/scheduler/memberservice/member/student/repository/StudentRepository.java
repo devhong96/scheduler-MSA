@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -16,7 +17,6 @@ import static com.scheduler.memberservice.client.dto.FeignMemberResponse.Student
 import static com.scheduler.memberservice.member.student.domain.QStudent.student;
 import static com.scheduler.memberservice.member.student.dto.StudentResponse.StudentInfoResponse;
 import static com.scheduler.memberservice.member.teacher.domain.QTeacher.teacher;
-import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 @RequiredArgsConstructor
@@ -71,14 +71,14 @@ public class StudentRepository {
     }
 
     private BooleanExpression studentUsernameEq(String username) {
-        return hasText(username) ? student.username.eq(username) : null;
+        return StringUtils.hasText(username) ? student.username.eq(username) : null;
     }
 
     private BooleanExpression studentNameEq(String studentName) {
-        return hasText(studentName) ? student.studentName.eq(studentName) : null;
+        return StringUtils.hasText(studentName) ? student.studentName.eq(studentName) : null;
     }
 
     private BooleanExpression teacherNameEq(String teacherName) {
-        return hasText(teacherName) ? teacher.teacherName.eq(teacherName) : null;
+        return StringUtils.hasText(teacherName) ? teacher.teacherName.eq(teacherName) : null;
     }
 }

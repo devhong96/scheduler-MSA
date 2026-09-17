@@ -3,6 +3,8 @@ package com.scheduler.memberservice.client.dto;
 import com.scheduler.memberservice.member.common.RoleType;
 import lombok.*;
 
+import java.io.Serializable;
+
 public class FeignMemberResponse {
 
     @Getter
@@ -35,7 +37,7 @@ public class FeignMemberResponse {
 
     @Getter
     @Setter
-    public static class MemberInfo {
+    public static class MemberInfo implements Serializable {
 
         private RoleType roleType;
         private String memberId;

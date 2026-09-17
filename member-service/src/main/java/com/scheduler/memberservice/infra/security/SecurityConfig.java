@@ -72,9 +72,6 @@ public class SecurityConfig {
             "/teacher/find/*",
             "/teacher/join",
             "/token/*"
-            //test
-//            "/**"
-
     };
 
     @Bean
@@ -87,8 +84,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, LoginFilter.class)
                 .addFilterAt(
                         new LoginFilter(jwtUtils, authenticationManager(authenticationConfiguration),
-                                refreshTokenJpaRepository),
-                        UsernamePasswordAuthenticationFilter.class)
+                                refreshTokenJpaRepository), UsernamePasswordAuthenticationFilter.class)
 
                 .addFilterBefore(new CustomLogoutFilter(jwtUtils, refreshTokenJpaRepository), LogoutFilter.class)
                 .authorizeHttpRequests(

@@ -8,6 +8,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.5'
     id 'io.spring.dependency-management' version '1.1.7'
+    id 'jacoco'
 }
 
 group = 'com.scheduler'
@@ -102,8 +103,6 @@ dependencies {
 
 //    runtimeOnly 'io.netty:netty-resolver-dns-native-macos:4.1.104.Final:osx-aarch_64'
 
-
-
     compileOnly 'org.projectlombok:lombok'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -119,7 +118,37 @@ dependencyManagement {
     }
 }
 
+jacocoTestReport {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(true)
+    }
+
+    def Qdomains = []
+    for (qPattern in "**/QA".."**/QZ") {
+        Qdomains.add(qPattern + "*")
+    }
+
+    classDirectories.setFrom(files(classDirectories.files.collect {
+        fileTree(dir: it,
+                exclude: [
+                        "**/*Application*",
+                        "**/_global/**",
+                        "**/dto/**",
+                        "**/redis/**",
+                        "**/config/**",
+                        "**/common/**",
+                        "**/exception/**",
+                        "**/util/**",
+                        "**/BaseEntity/**",
+                        "**/jwt/**",
+                        "**/log/**",
+                ] + Qdomains)
+    }))
+}
 
 tasks.named('test') {
+    finalizedBy jacocoTestReport
     useJUnitPlatform()
 }
