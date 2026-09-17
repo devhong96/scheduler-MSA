@@ -22,6 +22,9 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final String ACCESS_CATEGORY = "access";
+
     private final JwtUtils jwtUtils;
 
     @Override
@@ -39,16 +42,24 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!accessToken.startsWith("Bearer ")) {
+        if (!accessToken.startsWith(BEARER_PREFIX)) {
             log.info("start with Bearer");
             response.setStatus(SC_UNAUTHORIZED);
             response.getWriter().write("Invalid JWT Token");
             return;
         }
 
-        accessToken = accessToken.replace("Bearer ", "").trim();
+        accessToken = accessToken.substring(BEARER_PREFIX.length()).trim();
 
         try {
+            // refresh 토큰이 access 토큰처럼 쓰이는 것을 막는다.
+            if (!ACCESS_CATEGORY.equals(jwtUtils.getCategory(accessToken))) {
+                log.warn("access 토큰이 아닌 토큰으로 접근했습니다.");
+                response.setStatus(SC_UNAUTHORIZED);
+                response.getWriter().write("Invalid JWT Token");
+                return;
+            }
+
             Authentication authentication = jwtUtils.getAuthentication(accessToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {

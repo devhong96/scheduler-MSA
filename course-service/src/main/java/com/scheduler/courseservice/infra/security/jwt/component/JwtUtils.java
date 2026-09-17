@@ -30,7 +30,7 @@ public class JwtUtils {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    private static SecretKey signingKey;
+    private SecretKey signingKey;
 
     @PostConstruct
     public void createSigningKey() {
@@ -49,6 +49,11 @@ public class JwtUtils {
 
         UserDetails principal = new User(claims.getSubject(), "", authorities);
         return new UsernamePasswordAuthenticationToken(principal, null, authorities);
+    }
+
+    @Operation(summary = "카테고리 확인")
+    public String getCategory(String token) {
+        return getPayload(token).get("category", String.class);
     }
 
     private Claims getPayload(String token) {
