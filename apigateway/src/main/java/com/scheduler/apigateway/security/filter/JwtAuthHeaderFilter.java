@@ -1,6 +1,7 @@
 package com.scheduler.apigateway.security.filter;
 
 import com.scheduler.apigateway.security.component.JwtUtils;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -42,38 +43,32 @@ public class JwtAuthHeaderFilter extends AbstractGatewayFilterFactory<JwtAuthHea
             String accessToken = request.getHeaders().getFirst(AUTHORIZATION);
 
             if (accessToken == null) {
-                return chain.filter(exchange);
+                response.setStatusCode(UNAUTHORIZED);
+                return writeErrorResponse(response, UNAUTHORIZED, "Missing Authorization header");
             }
 
             if (!accessToken.startsWith("Bearer ")) {
-                log.info("start with Bearer");
+                log.warn("Authorization header does not start with Bearer");
                 response.setStatusCode(UNAUTHORIZED);
-                return response.setComplete();
+                return writeErrorResponse(response, UNAUTHORIZED, "Invalid Authorization header format");
             }
 
             accessToken = accessToken.replace("Bearer ", "").trim();
 
+            Claims claims;
             try {
-                jwtUtils.verifyToken(accessToken);
+                claims = jwtUtils.validateAndGetClaims(accessToken);
             } catch (JwtException e) {
-                log.info("verify");
+                log.warn("Token validation failed: {}", e.getMessage());
                 response.setStatusCode(UNAUTHORIZED);
-                return writeErrorResponse(response, UNAUTHORIZED, "Invalid token: " + e.getMessage());
+                return writeErrorResponse(response, UNAUTHORIZED, e.getMessage());
             }
 
-            try {
-                jwtUtils.isExpired(accessToken);
-            } catch (Exception e) {
-                log.info("isExpired");
-                response.setStatusCode(UNAUTHORIZED);
-                return writeErrorResponse(response, UNAUTHORIZED, "Expired token: " + e.getMessage());
-            }
-
-            String category = jwtUtils.getCategory(accessToken);
+            String category = claims.get("category", String.class);
             if (category == null || !category.equals("access")) {
-                log.info("category");
+                log.warn("Invalid token category: {}", category);
                 response.setStatusCode(BAD_REQUEST);
-                return writeErrorResponse(response, BAD_REQUEST, "Invalid category: not access or category is null");
+                return writeErrorResponse(response, BAD_REQUEST, "Invalid category");
             }
 
             return chain.filter(exchange);
