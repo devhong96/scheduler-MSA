@@ -84,6 +84,7 @@ public class CommentService {
         }
     }
 
+    //페이지 네이션
     public CommentPageResponse readAll(Long articleId, Long page, Long pageSize) {
         return CommentPageResponse.of(
                 commentRepository.findAll(articleId, (page - 1) * pageSize, pageSize)
@@ -92,6 +93,7 @@ public class CommentService {
                 commentRepository.count(articleId, PageLimitCalculator.calculatePageLimit(page, pageSize, 10L)));
     }
 
+    // 무한 스크롤
     public List<CommentResponse> readAll(Long articleId, Long lastParentCommentId, Long lastCommentId, Long limit) {
         List<Comment> comments = lastParentCommentId == null || lastCommentId == null ?
                 commentRepository.findAllInfiniteScroll(articleId, limit) :
