@@ -1,0 +1,111 @@
+spring:
+  cloud:
+    config:
+      enabled: true
+
+  jpa:
+    database: h2
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      redis-preload-enabled: false
+
+  datasource: # jdbc
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+
+  mail: #email
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        protocol: smtp
+
+  sql:
+    init:
+      mode: embedded
+
+      schema-locations: classpath:/scheme.sql
+      data-locations: classpath:/data.sql
+
+  security:
+    user:
+      name: user
+      password: 123
+  messages:
+    basename: errors
+
+  rabbitmq:
+    student-name:
+      exchange:
+        name: "student.exchange"
+        dlx: "student.dlx"
+        compensation: "student.compensation.exchange"
+      routing:
+        key: "student.name.update"
+        compensation: "student.compensation.routing"
+      queue:
+        name: "student.name.update.queue"
+        dlq: "student.name.update.dlq"
+        compensation: "student.compensation.queue"
+
+    teacher-name:
+      exchange:
+        name: "teacher.exchange"
+        dlx: "teacher.dlx"
+        compensation: "teacher.compensation.exchange"
+      routing:
+        key: "teacher.name.update"
+        compensation: "teacher.compensation.routing"
+      queue:
+        name: "teacher.name.update.queue"
+        dlq: "teacher.name.update.dlq"
+        compensation: "teacher.compensation.queue"
+
+  kafka:
+    topics:
+      course:
+        apply: course_schedule_logs
+        group-id: group-1
+    producer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: ${spring.embedded.kafka.brokers}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+scheduler_member_service_url: http://localhost:8080
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    port: 3000
+
+jwt:
+  secret_key: "ssssseeesasdcasdcasdcasdcasdcasdlckjkjlkjkjkjkjjjsadjasdjasjdasjdajd"
+
