@@ -7,27 +7,47 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 **🔗 모놀리식 버전 GitHub 저장소**: https://github.com/devhong96/scheduler
 
 ---
-## 📌 Git 저장소 목록
+## 📦 모노레포 구조
+
+2026.09 부터 서비스별로 나뉘어 있던 GitHub 저장소를 **하나의 모노레포로 통합**했습니다.
+각 서비스의 커밋 히스토리는 그대로 보존되어 있으며, 커밋 메시지 앞의 `[service-name]` 머릿말로 어느 서비스의 변경인지 구분합니다.
+
+```
+scheduler-MSA/
+├── discovery-service/   # Eureka 서비스 디스커버리
+├── apigateway/          # Spring Cloud Gateway, JWT 검증
+├── member-service/      # 사용자 계정, 인증 및 권한 관리
+├── course-service/      # 수업 일정 생성 및 관리
+├── order-service/       # Kakao, Naver, NicePay 결제 처리
+└── article-service/     # 문의사항 및 게시판 관리 (개발 중)
+```
 
 ### 🛠️ Infra
 
+| Service | Description | Location |
+| :--- | :--- | :--- |
+| **Discovery Service** | 서비스 디스커버리 | 📁 `discovery-service/` |
+| **Config Service** | 환경 설정 관리 (Spring Cloud Config Server) | 🔒 비공개 저장소 |
+| **Config** | 환경 설정 (암호화된 설정 값) | 🔒 비공개 저장소 |
 
-  | Service | Description | Status / Repository |
-  | :--- | :--- | :--- |
-  | **Discovery Service** | 서비스 디스커버리 | 🔗 [GitHub Repository](https://github.com/devhong96/scheduler-discovery-service) |
-  | **Config Service** | 환경 설정 관리 | 🔒 비공개 |
-  | **Config** | 환경 설정 | 🔒 비공개 |
+> Config Service와 Config는 DB 비밀번호·JWT 키·PG사 시크릿 등 암호화된 설정을 포함하므로 모노레포에 포함하지 않고 별도의 비공개 저장소로 관리합니다.
 
+### 🚀 Application Services
 
-### 🚀 Application Services Repository
+| Service | Description | Location |
+| :--- | :--- | :--- |
+| **API Gateway Service** | Spring Cloud Gateway 기반 | 📁 `apigateway/` |
+| **Member Service** | 사용자 계정, 인증 및 권한 관리 | 📁 `member-service/` |
+| **Course Service** | 수업 일정 생성 및 관리 | 📁 `course-service/` |
+| **Order Service** | Kakao, Naver, NicePay와 연동된 결제 처리 | 📁 `order-service/` |
+| **Article Service** (개발 중) | 문의사항 및 게시판 관리 | 📁 `article-service/` |
 
-| Service | Description | Repository                                                             |
-| :--- | :--- |:-----------------------------------------------------------------------|
-| **API Gateway Service** | Spring Cloud Gateway 기반 | [🔗 GitHub](https://github.com/devhong96/scheduler-apigateway-service) |
-| **Member Service** | 사용자 계정, 인증 및 권한 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-member-service)     |
-| **Course Service** | 수업 일정 생성 및 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-course-service)     |
-| **Article Service** (개발 중) | 문의사항 및 게시판 관리 | [🔗 GitHub](https://github.com/devhong96/scheduler-article-service)    |
-| **Order Service** | Kakao, Naver, NicePay와 연동된 결제 처리 | [🔗 GitHub](https://github.com/devhong96/scheduler-order-service)      |
+### 🔍 서비스별 커밋 히스토리 조회
+
+```bash
+git log -- member-service/                 # 특정 서비스의 커밋만 보기
+git log --grep='^\[order-service\]'        # 머릿말 기준으로 보기
+```
 
 ---
 
@@ -82,6 +102,10 @@ Synology NAS를 기반으로 교사와 학생의 수업을 예약하고 관리�
 - 결제 시스템의 설정 변동사항을 감안하여 PG사별 Header·Properties를 YAML로 관리 표준화
 - Factory·Strategy 패턴 도입으로 결제 로직을 인터페이스화하고 코드 변경 없이 신규 PG사를 확장할 수 있는 결제 모듈 설계
 - Outbox 패턴을 적용하여 이벤트를 DB에 저장하면 트랜잭션 커밋 후, 비동기 발행으로 큐 장애 시에도 유실 없이 재전송 가능하도록 구성
+
+4차 개발  2026.09 ~
+- 서비스별로 분리되어 있던 GitHub 저장소를 커밋 히스토리를 보존한 채 모노레포로 통합
+- 암호화된 설정을 포함한 Config / Config Service는 비공개 저장소로 분리 유지
 
 ---
 
