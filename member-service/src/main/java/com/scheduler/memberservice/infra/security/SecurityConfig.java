@@ -3,7 +3,7 @@ package com.scheduler.memberservice.infra.security;
 import com.scheduler.memberservice.infra.security.jwt.RefreshTokenJpaRepository;
 import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
 import com.scheduler.memberservice.infra.security.jwt.filter.CustomLogoutFilter;
-import com.scheduler.memberservice.infra.security.jwt.filter.JwtAuthFilter;
+import com.scheduler.common.security.HeaderAuthFilter;
 import com.scheduler.memberservice.infra.security.jwt.filter.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +28,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final JwtUtils jwtUtils;
-    private final JwtAuthFilter jwtAuthFilter;
+    private final HeaderAuthFilter headerAuthFilter;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final RefreshTokenJpaRepository refreshTokenJpaRepository;
 
@@ -81,7 +81,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterBefore(jwtAuthFilter, LoginFilter.class)
+                .addFilterBefore(headerAuthFilter, LoginFilter.class)
                 .addFilterAt(
                         new LoginFilter(jwtUtils, authenticationManager(authenticationConfiguration),
                                 refreshTokenJpaRepository), UsernamePasswordAuthenticationFilter.class)

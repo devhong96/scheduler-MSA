@@ -3,8 +3,6 @@ package com.scheduler.memberservice.member.teacher.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.scheduler.memberservice.client.CourseServiceClient;
-import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
-import com.scheduler.memberservice.infra.security.jwt.dto.JwtTokenDto;
 import com.scheduler.memberservice.testSet.IntegrationTest;
 import com.scheduler.memberservice.testSet.teacher.WithTeacher;
 import org.junit.jupiter.api.AfterEach;
@@ -12,12 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
+import static com.scheduler.memberservice.testSet.TestUserHeaders.userHeaders;
 import static com.scheduler.memberservice.infra.email.dto.FindInfoRequest.FindPasswordRequest;
 import static com.scheduler.memberservice.infra.email.dto.FindInfoRequest.FindUsernameRequest;
 import static com.scheduler.memberservice.member.teacher.dto.TeacherInfoRequest.*;
@@ -31,8 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 class TeacherCertControllerTest {
 
-    @Autowired
-    private JwtUtils jwtUtils;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -119,7 +113,6 @@ class TeacherCertControllerTest {
     @WithTeacher(username = TEST_TEACHER_USERNAME)
     @DisplayName("교사 컨트롤러 : 비밀번호 초기화")
     void initializePassword() throws Exception {
-        String accessToken = getAccessToken();
 
         PwdEditRequest request = new PwdEditRequest();
         request.setNewPassword("newPassword");
@@ -128,7 +121,7 @@ class TeacherCertControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/teacher/manage/password")
-                        .header(AUTHORIZATION, accessToken)
+                        .with(userHeaders())
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
@@ -138,7 +131,6 @@ class TeacherCertControllerTest {
     @WithTeacher(username = TEST_TEACHER_USERNAME)
     @DisplayName("교사 컨트롤러 : 이메일 변경")
     void changeTeacherEmail() throws Exception {
-        String accessToken = getAccessToken();
 
         EditEmailRequest request = new EditEmailRequest();
         request.setEmail("test@gmail.com");
@@ -146,15 +138,10 @@ class TeacherCertControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/teacher/manage/email")
-                        .header(AUTHORIZATION, accessToken)
+                        .with(userHeaders())
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
     }
 
-    private String getAccessToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtTokenDto jwtTokenDto = jwtUtils.generateToken(authentication);
-        return "Bearer " + jwtTokenDto.getAccessToken();
-    }
 }

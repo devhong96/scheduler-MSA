@@ -1,18 +1,14 @@
 package com.scheduler.memberservice.member.student.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
-import com.scheduler.memberservice.infra.security.jwt.dto.JwtTokenDto;
 import com.scheduler.memberservice.testSet.IntegrationTest;
 import com.scheduler.memberservice.testSet.student.WithStudent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
+import static com.scheduler.memberservice.testSet.TestUserHeaders.userHeaders;
 import static com.scheduler.memberservice.member.student.dto.StudentRequest.*;
 import static com.scheduler.memberservice.testSet.TestConstants.TEST_STUDENT_NAME;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -23,8 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 class StudentCertControllerTest {
 
-    @Autowired
-    private JwtUtils jwtUtils;
 
     @Autowired
     private MockMvc mockMvc;
@@ -60,15 +54,13 @@ class StudentCertControllerTest {
     @DisplayName("학생 본인의 개인정보 변경")
     void modifyStudentInfo() throws Exception {
 
-        String accessToken = getAccessToken();
-
         ModifyStudentInfoRequest request = new ModifyStudentInfoRequest();
         request.setStudentPhoneNumber("010-1234-5678");
 
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/student/modify/info")
-                        .header(AUTHORIZATION, accessToken)
+                        .with(userHeaders())
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
@@ -79,8 +71,6 @@ class StudentCertControllerTest {
     @DisplayName("학생 본인의 계정 비밀번호 변경")
     void modifyStudentPassword() throws Exception {
 
-        String accessToken = getAccessToken();
-
         ModifyStudentPasswordRequest request = new ModifyStudentPasswordRequest();
         request.setNewPassword("1234");
         request.setConfirmNewPassword("1234");
@@ -88,15 +78,10 @@ class StudentCertControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/student/modify/password")
-                        .header(AUTHORIZATION, accessToken)
+                        .with(userHeaders())
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
     }
 
-    private String getAccessToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtTokenDto jwtTokenDto = jwtUtils.generateToken(authentication);
-        return "Bearer " + jwtTokenDto.getAccessToken();
-    }
 }

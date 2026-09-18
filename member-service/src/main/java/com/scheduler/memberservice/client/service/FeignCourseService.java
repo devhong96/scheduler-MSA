@@ -2,11 +2,13 @@ package com.scheduler.memberservice.client.service;
 
 import static com.scheduler.memberservice.client.dto.FeignMemberResponse.*;
 
+import org.springframework.security.core.Authentication;
+
 public interface FeignCourseService {
 
-    TeacherInfo findTeacherInfoByToken(String token);
+    TeacherInfo findTeacherInfo(String username);
 
-    StudentInfo findStudentInfoByToken(String token);
+    StudentInfo findStudentInfo(String username);
 
-    MemberInfo findMemberInfoByToken(String token);
+    MemberInfo findMemberInfo(Authentication authentication);
 }

@@ -1,7 +1,6 @@
 package com.scheduler.memberservice.client.service;
 
 import com.scheduler.memberservice.infra.exception.custom.MemberExistException;
-import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
 import com.scheduler.memberservice.member.common.RoleType;
 import com.scheduler.memberservice.member.student.domain.Student;
 import com.scheduler.memberservice.member.student.repository.StudentJpaRepository;
@@ -24,18 +23,13 @@ import static com.scheduler.memberservice.member.common.RoleType.*;
 @RequiredArgsConstructor
 public class FeignCourseServiceImpl implements FeignCourseService {
 
-    private final JwtUtils jwtUtils;
     private final TeacherService teacherService;
     private final StudentService studentService;
     private final StudentJpaRepository studentJpaRepository;
     private final TeacherJpaRepository teacherJpaRepository;
 
     @Override
-    public TeacherInfo findTeacherInfoByToken(String token) {
-
-        token = token.replace("Bearer ", "").trim();
-
-        String username = jwtUtils.getAuthentication(token).getName();
+    public TeacherInfo findTeacherInfo(String username) {
 
         Teacher teacher = teacherService.findTeacherByUsernameIs(username);
 
@@ -44,13 +38,7 @@ public class FeignCourseServiceImpl implements FeignCourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public StudentInfo findStudentInfoByToken(String token) {
-
-        token = token.replace("Bearer ", "").trim();
-
-        Authentication authentication = jwtUtils.getAuthentication(token);
-
-        String username = authentication.getName();
+    public StudentInfo findStudentInfo(String username) {
 
         Student student = studentJpaRepository
                 .findStudentByUsernameIs(username)
@@ -71,11 +59,7 @@ public class FeignCourseServiceImpl implements FeignCourseService {
 
     @Override
     @Transactional(readOnly = true)
-    public MemberInfo findMemberInfoByToken(String token) {
-
-        token = token.replace("Bearer ", "").trim();
-
-        Authentication authentication = jwtUtils.getAuthentication(token);
+    public MemberInfo findMemberInfo(Authentication authentication) {
 
         RoleType roleType = valueOf(authentication.getAuthorities()
                 .stream()

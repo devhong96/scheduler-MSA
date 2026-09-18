@@ -3,8 +3,6 @@ package com.scheduler.memberservice.member.student.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.scheduler.memberservice.client.CourseServiceClient;
-import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
-import com.scheduler.memberservice.infra.security.jwt.dto.JwtTokenDto;
 import com.scheduler.memberservice.testSet.IntegrationTest;
 import com.scheduler.memberservice.testSet.admin.WithAdmin;
 import org.junit.jupiter.api.AfterEach;
@@ -12,12 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static com.github.dockerjava.zerodep.shaded.org.apache.hc.core5.http.HttpHeaders.AUTHORIZATION;
+import static com.scheduler.memberservice.testSet.TestUserHeaders.userHeaders;
 import static com.scheduler.memberservice.client.dto.FeignMemberRequest.CourseReassignmentResponse;
 import static com.scheduler.memberservice.member.student.dto.StudentRequest.ChangeTeacherRequest;
 import static com.scheduler.memberservice.testSet.TestConstants.TEST_ADMIN_USERNAME;
@@ -30,8 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @IntegrationTest
 class StudentManageControllerTest {
 
-    @Autowired
-    private JwtUtils jwtUtils;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -65,10 +59,8 @@ class StudentManageControllerTest {
     @DisplayName("학생 리스트 응답")
     void studentList() throws Exception {
 
-        String accessToken = getAccessToken();
-
         mockMvc.perform(get("/manage/student/list")
-                        .header(AUTHORIZATION, accessToken))
+                        .with(userHeaders()))
                 .andExpect(status().isOk());
     }
 
@@ -76,10 +68,8 @@ class StudentManageControllerTest {
     @WithAdmin(username = TEST_ADMIN_USERNAME)
     void changeStudentStatus() throws Exception {
 
-        String accessToken = getAccessToken();
-
         mockMvc.perform(patch("/manage/student/STU001/status")
-                        .header(AUTHORIZATION, accessToken))
+                        .with(userHeaders()))
                 .andExpect(status().isOk());
     }
 
@@ -98,7 +88,7 @@ class StudentManageControllerTest {
         String json = objectMapper.writeValueAsString(request);
 
         mockMvc.perform(patch("/manage/student/change")
-                        .header(AUTHORIZATION, getAccessToken())
+                        .with(userHeaders())
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk());
@@ -108,9 +98,4 @@ class StudentManageControllerTest {
     void changeStudentName() {
     }
 
-    private String getAccessToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        JwtTokenDto jwtTokenDto = jwtUtils.generateToken(authentication);
-        return "Bearer " + jwtTokenDto.getAccessToken();
-    }
 }

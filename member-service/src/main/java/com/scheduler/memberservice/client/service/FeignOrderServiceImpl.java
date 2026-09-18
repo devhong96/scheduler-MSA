@@ -1,6 +1,5 @@
 package com.scheduler.memberservice.client.service;
 
-import com.scheduler.memberservice.infra.security.jwt.component.JwtUtils;
 import com.scheduler.memberservice.member.student.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,16 +13,11 @@ import static com.scheduler.memberservice.client.dto.FeignMemberResponse.Student
 @RequiredArgsConstructor
 public class FeignOrderServiceImpl implements FeignOrderService {
 
-    private final JwtUtils jwtUtils;
     private final StudentRepository studentRepository;
 
     @Override
     @Transactional(readOnly = true)
-    public StudentResponse getStudentInfo(String accessToken) {
-
-        accessToken = accessToken.replace("Bearer ", "").trim();
-        String username = jwtUtils.getAuthentication(accessToken).getName();
-
+    public StudentResponse getStudentInfo(String username) {
         return studentRepository.getStudentInfo(username);
     }
 

@@ -4,7 +4,7 @@ import static com.scheduler.memberservice.client.dto.FeignMemberResponse.Student
 
 public interface FeignOrderService {
 
-    StudentResponse getStudentInfo(String accessToken);
+    StudentResponse getStudentInfo(String username);
 
     StudentResponse findStudentByUsername(String username);
 
