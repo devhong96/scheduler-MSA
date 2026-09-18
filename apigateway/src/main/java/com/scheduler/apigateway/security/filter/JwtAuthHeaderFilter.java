@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static com.scheduler.apigateway.security.component.UserHeaders.USER_NAME;
+import static com.scheduler.apigateway.security.component.UserHeaders.USER_ROLES;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
@@ -37,7 +39,7 @@ public class JwtAuthHeaderFilter extends AbstractGatewayFilterFactory<JwtAuthHea
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
-            ServerHttpRequest request = exchange.getRequest();
+            ServerHttpRequest request = stripUserHeaders(exchange.getRequest());
             ServerHttpResponse response = exchange.getResponse();
 
             String accessToken = request.getHeaders().getFirst(AUTHORIZATION);
@@ -71,8 +73,26 @@ public class JwtAuthHeaderFilter extends AbstractGatewayFilterFactory<JwtAuthHea
                 return writeErrorResponse(response, BAD_REQUEST, "Invalid category");
             }
 
-            return chain.filter(exchange);
+            // 검증된 claims 를 사용자 헤더로 변환해 내부 서비스로 전달한다
+            ServerHttpRequest authenticatedRequest = request.mutate()
+                    .headers(headers -> {
+                        headers.set(USER_NAME, claims.getSubject());
+                        headers.set(USER_ROLES, claims.get("auth", String.class));
+                    })
+                    .build();
+
+            return chain.filter(exchange.mutate().request(authenticatedRequest).build());
         };
+    }
+
+    // 클라이언트가 직접 보낸 사용자 헤더는 신뢰하지 않는다
+    private ServerHttpRequest stripUserHeaders(ServerHttpRequest request) {
+        return request.mutate()
+                .headers(headers -> {
+                    headers.remove(USER_NAME);
+                    headers.remove(USER_ROLES);
+                })
+                .build();
     }
 
     private Mono<Void> writeErrorResponse(ServerHttpResponse response, HttpStatus status, String message) {

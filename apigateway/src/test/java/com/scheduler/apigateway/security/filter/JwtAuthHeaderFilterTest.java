@@ -1,12 +1,14 @@
 package com.scheduler.apigateway.security.filter;
 
 import com.scheduler.apigateway.security.component.JwtUtils;
+import com.scheduler.apigateway.security.component.UserHeaders;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -22,6 +24,8 @@ import reactor.test.StepVerifier;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class JwtAuthHeaderFilterTest {
@@ -63,6 +67,57 @@ class JwtAuthHeaderFilterTest {
         // Then
         StepVerifier.create(result)
                 .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("검증된 토큰의 subject/auth 를 X-User-Name / X-User-Roles 헤더로 전달한다")
+    void validToken_shouldForwardUserHeaders() {
+        // Given
+        String token = "valid.token.here";
+        MockServerHttpRequest request = MockServerHttpRequest.get("/")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .build();
+        MockServerWebExchange exchange = MockServerWebExchange.from(request);
+
+        Claims claims = new DefaultClaims(Map.of("sub", "test_teacher", "auth", "TEACHER", "category", "access"));
+        when(jwtUtils.validateAndGetClaims(token)).thenReturn(claims);
+        ArgumentCaptor<ServerWebExchange> captor = ArgumentCaptor.forClass(ServerWebExchange.class);
+
+        GatewayFilter filter = jwtAuthHeaderFilter.apply(new JwtAuthHeaderFilter.Config());
+        // When
+        StepVerifier.create(filter.filter(exchange, chain)).verifyComplete();
+        // Then
+        verify(chain).filter(captor.capture());
+        HttpHeaders forwarded = captor.getValue().getRequest().getHeaders();
+        assertThat(forwarded.getFirst(UserHeaders.USER_NAME)).isEqualTo("test_teacher");
+        assertThat(forwarded.getFirst(UserHeaders.USER_ROLES)).isEqualTo("TEACHER");
+        assertThat(forwarded.getFirst(HttpHeaders.AUTHORIZATION)).isEqualTo("Bearer " + token);
+    }
+
+    @Test
+    @DisplayName("클라이언트가 보낸 X-User-* 헤더는 토큰의 값으로 덮어쓴다")
+    void spoofedUserHeaders_shouldBeReplaced() {
+        // Given
+        String token = "valid.token.here";
+        MockServerHttpRequest request = MockServerHttpRequest.get("/")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .header(UserHeaders.USER_NAME, "hacker")
+                .header(UserHeaders.USER_ROLES, "ADMIN")
+                .build();
+        MockServerWebExchange exchange = MockServerWebExchange.from(request);
+
+        Claims claims = new DefaultClaims(Map.of("sub", "test_student", "auth", "STUDENT", "category", "access"));
+        when(jwtUtils.validateAndGetClaims(token)).thenReturn(claims);
+        ArgumentCaptor<ServerWebExchange> captor = ArgumentCaptor.forClass(ServerWebExchange.class);
+
+        GatewayFilter filter = jwtAuthHeaderFilter.apply(new JwtAuthHeaderFilter.Config());
+        // When
+        StepVerifier.create(filter.filter(exchange, chain)).verifyComplete();
+        // Then
+        verify(chain).filter(captor.capture());
+        HttpHeaders forwarded = captor.getValue().getRequest().getHeaders();
+        assertThat(forwarded.get(UserHeaders.USER_NAME)).containsExactly("test_student");
+        assertThat(forwarded.get(UserHeaders.USER_ROLES)).containsExactly("STUDENT");
     }
 
     @Test
