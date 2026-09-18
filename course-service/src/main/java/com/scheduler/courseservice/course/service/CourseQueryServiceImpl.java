@@ -41,9 +41,9 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     @Transactional(readOnly = true)
     @CircuitBreaker(name = "studentService", fallbackMethod = "fallbackFindStudentClasses")
     public StudentCourseResponse findStudentClasses(
-            String token, Integer year, Integer weekOfYear
+            Integer year, Integer weekOfYear
     ) {
-        StudentInfo studentInfo = memberServiceClient.findStudentInfoByToken(token);
+        StudentInfo studentInfo = memberServiceClient.findStudentInfo();
 
         if (studentInfo == null) {
             throw new IllegalStateException("StudentInfo is null");
@@ -59,7 +59,7 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     }
 
     protected StudentCourseResponse fallbackFindStudentClasses(
-            String token, Integer year, Integer weekOfYear, Throwable e
+            Integer year, Integer weekOfYear, Throwable e
     ) {
         log.warn("Reason: ", e);
 
@@ -69,9 +69,9 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     @Override
     @Transactional(readOnly = true)
     @CircuitBreaker(name = "teacherService", fallbackMethod = "fallbackFindTeachersClasses")
-    public CourseList findTeachersClasses(String token, Integer year, Integer weekOfYear) {
+    public CourseList findTeachersClasses(Integer year, Integer weekOfYear) {
 
-        String teacherId = memberServiceClient.findTeacherInfoByToken(token).getTeacherId();
+        String teacherId = memberServiceClient.findTeacherInfo().getTeacherId();
 
         int finalYear = (year != null) ? year : dateProvider.getCurrentYear();
         int finalWeekOfYear = (weekOfYear != null) ? weekOfYear : dateProvider.getCurrentWeek();
@@ -92,7 +92,7 @@ public class CourseQueryServiceImpl implements CourseQueryService {
         return classList;
     }
 
-    protected CourseList fallbackFindTeachersClasses(String token, Integer year, Integer weekOfYear, Throwable e) {
+    protected CourseList fallbackFindTeachersClasses(Integer year, Integer weekOfYear, Throwable e) {
         log.warn("Fallback activated for findTeachersClasses. Reason: {}", e.getMessage());
         return new CourseList();
     }

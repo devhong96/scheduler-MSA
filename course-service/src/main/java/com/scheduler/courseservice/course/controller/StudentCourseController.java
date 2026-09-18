@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.scheduler.courseservice.course.dto.CourseInfoRequest.UpsertCourseRequest;
 import static com.scheduler.courseservice.course.dto.CourseInfoResponse.StudentCourseResponse;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -27,11 +26,10 @@ public class StudentCourseController {
     )
     @GetMapping("class")
     public ResponseEntity<StudentCourseResponse> findStudentClasses(
-            @RequestHeader(AUTHORIZATION) String token,
             @RequestParam(required = false) Integer year,
             @RequestParam(required = false) Integer weekOfYear
     ) {
-        return new ResponseEntity<>(courseQueryService.findStudentClasses(token, year, weekOfYear), OK);
+        return new ResponseEntity<>(courseQueryService.findStudentClasses(year, weekOfYear), OK);
     }
 
     @Operation(
@@ -40,10 +38,9 @@ public class StudentCourseController {
     )
     @PostMapping("class")
     public ResponseEntity<Void> applyCourse(
-            @RequestHeader(AUTHORIZATION) String token,
             @Valid @RequestBody UpsertCourseRequest upsertCourseRequest
     ) {
-        courseService.applyCourse(token, upsertCourseRequest);
+        courseService.applyCourse(upsertCourseRequest);
         return new ResponseEntity<>(OK);
     }
 }

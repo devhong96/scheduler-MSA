@@ -65,8 +65,8 @@ class CourseScheduleServiceTest {
         StudentInfo studentInfo1 = new StudentInfo("teacher_001", "Mr.Kim", "student_008", "Henry Lim");
         StudentInfo studentInfo2 = new StudentInfo("teacher_001", "Mr.Kim", "student_009", "Irene Seo");
 
-        when(memberServiceClient.findStudentInfoByToken(TEST_TOKEN_1)).thenReturn(studentInfo1);
-        when(memberServiceClient.findStudentInfoByToken(TEST_TOKEN_2)).thenReturn(studentInfo2);
+        // 호출 순서대로 서로 다른 학생 정보를 돌려줘 두 학생의 동시 신청을 흉내낸다
+        when(memberServiceClient.findStudentInfo()).thenReturn(studentInfo1, studentInfo2);
 
         UpsertCourseRequest req = new UpsertCourseRequest();
         req.setMondayClassHour(1);
@@ -81,21 +81,21 @@ class CourseScheduleServiceTest {
         CountDownLatch startGate = new CountDownLatch(1);
         CountDownLatch endGate = new CountDownLatch(threadCount);
 
-        List<String> tokens = List.of(TEST_TOKEN_1, TEST_TOKEN_2);
-
-        tokens.forEach(token ->
-                exec.submit(() -> {
-                    try {
-                        startGate.await();
-                        courseService.applyCourse(token, req);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    } catch (Exception e) {
-                        System.out.println("Task for token [" + token + "] failed: " + e.getMessage());
-                    } finally {
-                        endGate.countDown();
-                    }
-                }));
+        for (int i = 0; i < threadCount; i++) {
+            int taskNo = i;
+            exec.submit(() -> {
+                try {
+                    startGate.await();
+                    courseService.applyCourse(req);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                } catch (Exception e) {
+                    System.out.println("Task [" + taskNo + "] failed: " + e.getMessage());
+                } finally {
+                    endGate.countDown();
+                }
+            });
+        }
 
         startGate.countDown();
 

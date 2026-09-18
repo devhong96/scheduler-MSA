@@ -11,7 +11,7 @@ import static com.scheduler.courseservice.course.messaging.RabbitMQDto.ChangeMem
 
 public interface CourseService {
 
-      void applyCourse(String token, UpsertCourseRequest upsertCourseRequest);
+      void applyCourse(UpsertCourseRequest upsertCourseRequest);
 
       void changeStudentName(ChangeMemberNameDto changeMemberNameDto);
 

@@ -9,8 +9,8 @@ public interface CourseQueryService {
 
     Page<StudentCourseResponse> findAllStudentsCourses(Integer page, Integer size, String keyword);
 
-    CourseList findTeachersClasses(String token, Integer year, Integer weekOfYear);
+    CourseList findTeachersClasses(Integer year, Integer weekOfYear);
 
-    StudentCourseResponse findStudentClasses(String token, Integer year, Integer weekOfYear);
+    StudentCourseResponse findStudentClasses(Integer year, Integer weekOfYear);
 
 }

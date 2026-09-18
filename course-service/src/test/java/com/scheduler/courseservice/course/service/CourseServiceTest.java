@@ -95,9 +95,9 @@ class CourseServiceTest {
 
         StudentInfo studentInfo = new StudentInfo("teacher_001", "Mr. Kim", "student_009", "Irene Seo");
 
-        when(memberServiceClient.findStudentInfoByToken(TEST_TOKEN_1)).thenReturn(studentInfo);
+        when(memberServiceClient.findStudentInfo()).thenReturn(studentInfo);
 
-        StudentInfo result = memberServiceClient.findStudentInfoByToken(TEST_TOKEN_1);
+        StudentInfo result = memberServiceClient.findStudentInfo();
 
         assertThat(result)
                 .isNotNull()
@@ -116,7 +116,7 @@ class CourseServiceTest {
     void applyCourse() {
 
         StudentInfo studentInfo = new StudentInfo("teacher_001", "Mr. Kim", "student_009", "Irene Seo");
-        when(memberServiceClient.findStudentInfoByToken(TEST_TOKEN_1)).thenReturn(studentInfo);
+        when(memberServiceClient.findStudentInfo()).thenReturn(studentInfo);
 
         UpsertCourseRequest upsertCourseRequest = new UpsertCourseRequest();
         upsertCourseRequest.setMondayClassHour(1);
@@ -125,7 +125,7 @@ class CourseServiceTest {
         upsertCourseRequest.setThursdayClassHour(2);
         upsertCourseRequest.setFridayClassHour(5);
 
-        courseService.applyCourse(TEST_TOKEN_1, upsertCourseRequest);
+        courseService.applyCourse(upsertCourseRequest);
 
         ArgumentCaptor<EventPayload> payloadCaptor = ArgumentCaptor.forClass(EventPayload.class);
 

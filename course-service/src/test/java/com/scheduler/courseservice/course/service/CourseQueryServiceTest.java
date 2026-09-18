@@ -52,10 +52,10 @@ class CourseQueryServiceTest {
 
         StudentInfo studentInfo = new StudentInfo("teacher_001", "Mr. Kim", "student_009", "Irene Seo");
 
-        when(memberServiceClient.findStudentInfoByToken(TEST_TOKEN_1))
+        when(memberServiceClient.findStudentInfo())
                 .thenReturn(studentInfo);
 
-        StudentCourseResponse studentClasses = courseQueryService.findStudentClasses(TEST_TOKEN_1, mockYear, mockWeek);
+        StudentCourseResponse studentClasses = courseQueryService.findStudentClasses(mockYear, mockWeek);
 
         assertThat(studentClasses)
                 .extracting(
@@ -76,11 +76,11 @@ class CourseQueryServiceTest {
         // Given
         TeacherInfo teacherInfo = new TeacherInfo("teacher_001");
 
-        when(memberServiceClient.findTeacherInfoByToken(TEST_TOKEN_1))
+        when(memberServiceClient.findTeacherInfo())
                 .thenReturn(teacherInfo);
 
         CourseList teachersClasses = courseQueryService
-                .findTeachersClasses(TEST_TOKEN_1, mockYear, mockWeek);
+                .findTeachersClasses(mockYear, mockWeek);
 
         int size = teachersClasses.getClassList(FRIDAY).size();
 

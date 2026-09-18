@@ -38,16 +38,16 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional("transactionManager")
     @CircuitBreaker(name = "studentService", fallbackMethod = "fallbackSaveClassTable")
-    public void applyCourse(String token, UpsertCourseRequest upsertCourseRequest) {
+    public void applyCourse(UpsertCourseRequest upsertCourseRequest) {
 
-        StudentInfo studentInfo = memberServiceClient.findStudentInfoByToken(token);
+        StudentInfo studentInfo = memberServiceClient.findStudentInfo();
         outBoxEventPublisher.publish(
                 CREATED, new CourseCreatedEventPayload(studentInfo, upsertCourseRequest)
         );
     }
 
     protected void fallbackSaveClassTable(
-            String token, UpsertCourseRequest upsertCourseRequest, Throwable e
+            UpsertCourseRequest upsertCourseRequest, Throwable e
     ) {
         log.warn("Reason: ", e);
         throw new RuntimeException("수업 정보를 저장할 수 없습니다. 다시 시도해 주세요.");

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.scheduler.courseservice.course.dto.CourseInfoResponse.CourseList;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -23,10 +22,9 @@ public class TeacherCourseController {
     )
     @GetMapping("class")
     public ResponseEntity<CourseList> findTeachersClasses(
-            @RequestHeader(AUTHORIZATION) String token,
             @RequestParam(required = false) Integer year,
             @RequestParam(required = false) Integer weekOfYear
     ) {
-        return new ResponseEntity<>(courseQueryService.findTeachersClasses(token, year, weekOfYear), OK);
+        return new ResponseEntity<>(courseQueryService.findTeachersClasses(year, weekOfYear), OK);
     }
 }
