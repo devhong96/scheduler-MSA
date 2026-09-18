@@ -40,10 +40,10 @@ public class KakaoOrderServiceImpl implements KakaoOrderService {
 
     @Override
     public KakaoPreOrderResponse kakaoPreOrder(
-            String accessToken, KakaoPreOrderRequest kakaoPreOrderRequest
+            String username, KakaoPreOrderRequest kakaoPreOrderRequest
     ) {
 
-        String studentId = memberServiceClient.getStudentInfo(accessToken).getStudentId();
+        String studentId = memberServiceClient.findStudentByUsername(username).getStudentId();
 
         String itemCode = kakaoPreOrderRequest.getItemCode();
 
@@ -56,14 +56,14 @@ public class KakaoOrderServiceImpl implements KakaoOrderService {
         OrderType orderType = kakaoPreOrderRequest.getOrderType();
 
         if(orderType.equals(DIRECT)) {
-            redisOrderCache.saveDirectOrderInfo(orderId, new DirectOrderDto(accessToken, productName, itemCode, quantity));
+            redisOrderCache.saveDirectOrderInfo(orderId, new DirectOrderDto(username, productName, itemCode, quantity));
         }
 
         KakaoPreOrderResponse response = kakaoPreOrder.kakaoPreOrderResponse(orderId, kakaoPreOrderRequest)
                 .blockOptional().orElseThrow(PaymentException::new);
 
         String tid = response.getTid();
-        redisOrderCache.saveKakaoOrderInfo(orderId, new KakaoDto(accessToken, tid, studentId, System.currentTimeMillis()));
+        redisOrderCache.saveKakaoOrderInfo(orderId, new KakaoDto(username, tid, studentId, System.currentTimeMillis()));
 
         return response;
     }
@@ -76,7 +76,7 @@ public class KakaoOrderServiceImpl implements KakaoOrderService {
 
         //바로 결제 장바구니 결제 나눌것
         DirectOrderDto directOrderDto = redisOrderCache.getDirectOrderInfo(orderId);
-        StudentResponse studentResponse = memberServiceClient.getStudentInfo(directOrderDto.getAccessToken());
+        StudentResponse studentResponse = memberServiceClient.findStudentByUsername(directOrderDto.getUsername());
 
         KakaoApproveOrderResponse response = approveKakaoOrder.kakaoApproveOrderResponse(orderId, pgToken)
                 .blockOptional().orElseThrow(PaymentException::new);

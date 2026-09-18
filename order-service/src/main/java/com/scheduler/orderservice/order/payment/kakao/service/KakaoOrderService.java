@@ -10,7 +10,7 @@ import static com.scheduler.orderservice.order.payment.kakao.dto.KakaoSearchOrde
 
 public interface KakaoOrderService {
 
-    KakaoPreOrderResponse kakaoPreOrder(String accessToken, KakaoPreOrderRequest kakaoPreOrderRequest);
+    KakaoPreOrderResponse kakaoPreOrder(String username, KakaoPreOrderRequest kakaoPreOrderRequest);
 
     KakaoApproveOrderResponse createKakaoOrder(OrderType orderType, OrderCategory orderCategory, String orderId, String pgToken);
 

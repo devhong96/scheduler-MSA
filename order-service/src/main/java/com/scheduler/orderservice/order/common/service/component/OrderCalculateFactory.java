@@ -19,7 +19,7 @@ import static com.scheduler.orderservice.order.common.dto.OrderRequest.ProductIt
 public class OrderCalculateFactory {
 
     public OrderCheckoutInfo createOrderCalculator(
-            String accessToken, OrderType orderType, OrderCategory orderCategory, Vendor vendor,
+            String username, OrderType orderType, OrderCategory orderCategory, Vendor vendor,
             PreOrderRequest preOrderRequest
     ) {
         List<ProductItems> productItems = preOrderRequest.getProductItems();
@@ -47,7 +47,7 @@ public class OrderCalculateFactory {
 
         Integer vatAmount = amountSum - supplyPrice;
 
-        return new OrderCheckoutInfo(accessToken, vendor, orderCategory, orderType, orderId, productId, productCoverUrl, productName, totalQuantity, eachCount, amountSum, vatAmount);
+        return new OrderCheckoutInfo(username, vendor, orderCategory, orderType, orderId, productId, productCoverUrl, productName, totalQuantity, eachCount, amountSum, vatAmount);
 
     }
 }

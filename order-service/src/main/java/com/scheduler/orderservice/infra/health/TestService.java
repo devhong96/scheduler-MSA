@@ -16,9 +16,9 @@ public class TestService {
 
     @Transactional
     public StudentResponse test (
-            String accessToken
+            String username
     ) {
-        return memberServiceClient.getStudentInfo(accessToken);
+        return memberServiceClient.findStudentByUsername(username);
     }
 
     @Transactional

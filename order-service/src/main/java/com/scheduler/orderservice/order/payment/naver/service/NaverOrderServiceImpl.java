@@ -44,7 +44,7 @@ public class NaverOrderServiceImpl implements NaverOrderService {
         // 장바구니 결제와 즉시 결제 여기서 부터 나눠야 할듯.
         DirectOrderDto directOrder = redisOrderCache.getDirectOrderInfo(orderId);
 
-        StudentResponse studentResponse = memberServiceClient.getStudentInfo(directOrder.getAccessToken());
+        StudentResponse studentResponse = memberServiceClient.findStudentByUsername(directOrder.getUsername());
 
         return createNaverOrder.createNaverOrderResponse(resultCode, paymentId)
                 .flatMap(response -> {

@@ -10,7 +10,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OrderCheckoutInfo {
 
-    private final String accessToken;
+    private final String username;
 
     private final Vendor vendor;
     private final OrderCategory orderCategory;

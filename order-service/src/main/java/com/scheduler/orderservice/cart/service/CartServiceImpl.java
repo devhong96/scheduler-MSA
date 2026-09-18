@@ -21,16 +21,16 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartResponse createCart(String accessToken, CartCreateRequest createRequest) {
-        StudentResponse studentInfo = memberServiceClient.getStudentInfo(accessToken);
+    public CartResponse createCart(String username, CartCreateRequest createRequest) {
+        StudentResponse studentInfo = memberServiceClient.findStudentByUsername(username);
 
         return null;
     }
 
     @Override
     @Transactional
-    public CartResponse updateCart(String accessToken, UpdateQuantityRequest quantityRequest) {
-        StudentResponse studentInfo = memberServiceClient.getStudentInfo(accessToken);
+    public CartResponse updateCart(String username, UpdateQuantityRequest quantityRequest) {
+        StudentResponse studentInfo = memberServiceClient.findStudentByUsername(username);
 
         Cart cart = cartJpaRepository.findCartByCartIdAndStudentId(quantityRequest.getCartId(), studentInfo.getStudentId())
                 .orElseThrow(EntityExistsException::new);
@@ -42,8 +42,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public CartResponse checkedCart(String accessToken, UpdateCheckedRequest checkedRequest) {
-        StudentResponse studentInfo = memberServiceClient.getStudentInfo(accessToken);
+    public CartResponse checkedCart(String username, UpdateCheckedRequest checkedRequest) {
+        StudentResponse studentInfo = memberServiceClient.findStudentByUsername(username);
 
         Cart cart = cartJpaRepository.findCartByCartIdAndStudentId(checkedRequest.getCartId(), studentInfo.getStudentId())
                 .orElseThrow(EntityExistsException::new);
@@ -55,8 +55,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public Long deleteCart(String accessToken, DeleteCartRequest deleteCartRequest) {
-        StudentResponse studentInfo = memberServiceClient.getStudentInfo(accessToken);
+    public Long deleteCart(String username, DeleteCartRequest deleteCartRequest) {
+        StudentResponse studentInfo = memberServiceClient.findStudentByUsername(username);
 
         return cartJpaRepository.deleteCartsByCartIdAndStudentId(
                 deleteCartRequest.getCartId(), studentInfo.getStudentId());

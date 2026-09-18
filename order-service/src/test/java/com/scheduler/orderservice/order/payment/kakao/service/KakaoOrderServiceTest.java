@@ -48,11 +48,11 @@ class KakaoOrderServiceTest {
     @Test
     @DisplayName("카카오 선결제")
     void kakaoPreOrder() {
-        String accessToken = "test-token";
+        String username = "test_student";
 
         StudentResponse studentInfo = new StudentResponse("STUDENT123", "Test Student");
 
-        when(memberServiceClient.getStudentInfo(accessToken)).thenReturn(studentInfo);
+        when(memberServiceClient.findStudentByUsername(username)).thenReturn(studentInfo);
 
         String expectedKakaoApiResponse = """
         {
@@ -88,7 +88,7 @@ class KakaoOrderServiceTest {
                 .orderCategory(TUITION)
                 .build();
 
-        KakaoPreOrderResponse response = kakaoOrderService.kakaoPreOrder(accessToken, request);
+        KakaoPreOrderResponse response = kakaoOrderService.kakaoPreOrder(username, request);
 
 
         assertThat(response.getTid()).isNotNull();

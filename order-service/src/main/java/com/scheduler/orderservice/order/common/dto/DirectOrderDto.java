@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class DirectOrderDto {
 
-    private String accessToken;
+    private String username;
     private String productId;
     private String productName;
     private Integer quantity;

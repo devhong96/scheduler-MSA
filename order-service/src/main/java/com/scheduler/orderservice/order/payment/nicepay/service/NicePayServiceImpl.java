@@ -44,7 +44,7 @@ public class NicePayServiceImpl implements NicePayService {
         //바로 결제 장바구니 결제 나눌것
         DirectOrderDto directOrder = redisOrderCache.getDirectOrderInfo(orderId);
 
-        StudentResponse studentResponse = memberServiceClient.getStudentInfo(directOrder.getAccessToken());
+        StudentResponse studentResponse = memberServiceClient.findStudentByUsername(directOrder.getUsername());
 
         NicePayOrderResponse response = createNicePayOrder.createNicePayOrder(niceRequest)
                 .blockOptional().orElseThrow(PaymentException::new);

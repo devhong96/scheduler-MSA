@@ -6,12 +6,12 @@ import static com.scheduler.orderservice.cart.dto.CartRequest.*;
 
 public interface CartService {
 
-    CartResponse createCart(String accessToken, CartCreateRequest createRequest);
+    CartResponse createCart(String username, CartCreateRequest createRequest);
 
-    CartResponse updateCart(String accessToken, UpdateQuantityRequest quantityRequest);
+    CartResponse updateCart(String username, UpdateQuantityRequest quantityRequest);
 
-    CartResponse checkedCart(String accessToken, UpdateCheckedRequest checkedRequest);
+    CartResponse checkedCart(String username, UpdateCheckedRequest checkedRequest);
 
-    Long deleteCart(String accessToken, DeleteCartRequest deleteCartRequest);
+    Long deleteCart(String username, DeleteCartRequest deleteCartRequest);
 
 }

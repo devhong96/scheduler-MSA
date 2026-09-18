@@ -45,7 +45,7 @@ public class KakaoCreateOrderService implements CreateOrderGateway {
                 .orderCategory(info.getOrderCategory())
                 .build();
 
-        KakaoPreOrderResponse kakaoPreOrder = kakaoOrderService.kakaoPreOrder(info.getAccessToken(), kakaoPreOrderRequest);
+        KakaoPreOrderResponse kakaoPreOrder = kakaoOrderService.kakaoPreOrder(info.getUsername(), kakaoPreOrderRequest);
 
         return new OrderResponse(KAKAO, kakaoPreOrder);
     }

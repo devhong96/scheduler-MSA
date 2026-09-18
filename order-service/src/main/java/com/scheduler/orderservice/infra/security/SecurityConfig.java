@@ -1,7 +1,6 @@
 package com.scheduler.orderservice.infra.security;
 
-import com.scheduler.orderservice.infra.security.jwt.component.JwtUtils;
-import com.scheduler.orderservice.infra.security.jwt.filter.JwtAuthFilter;
+import com.scheduler.common.security.HeaderAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtUtils jwtUtils;
+    private final HeaderAuthFilter headerAuthFilter;
 
     @Bean
     public AuthenticationManager authenticationManagerauthenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -51,7 +50,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .addFilterAt(new JwtAuthFilter(jwtUtils), BasicAuthenticationFilter.class)
+                .addFilterAt(headerAuthFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(
         auth -> auth
                 .requestMatchers(INTERNAL_ENDPOINTS)

@@ -10,11 +10,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import static com.scheduler.orderservice.order.common.dto.OrderRequest.PreOrderRequest;
 import static com.scheduler.orderservice.order.common.dto.OrderResponseList.OrderResponse;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j
@@ -28,25 +28,25 @@ public class OrderController {
     @Operation(summary = "주문 결제 버튼", description = "결제에 필요한 정보를 포함해서 반환")
     @PostMapping("{orderType}/{orderCategory}/{vendor}")
     public ResponseEntity<OrderResponse> createOrder(
-            @RequestHeader(value = AUTHORIZATION) String accessToken,
+            @AuthenticationPrincipal(expression = "username") String username,
             @PathVariable("orderType") String orderType,
             @PathVariable("orderCategory") String orderCategory,
             @PathVariable("vendor") String vendor,
             @Valid @RequestBody PreOrderRequest preOrderRequest
     ) {
         return new ResponseEntity<>(orderService.createOrder(
-                accessToken,
+                username,
                 OrderType.fromString(orderType), OrderCategory.fromString(orderCategory), Vendor.fromString(vendor),
                 preOrderRequest), OK);
     }
 
     @PostMapping("{orderId}")
     public ResponseEntity<Void> cancelOrder(
-            @RequestHeader(value = AUTHORIZATION) String accessToken,
+            @AuthenticationPrincipal(expression = "username") String username,
             @PathVariable("orderId") String orderId,
             @RequestBody CancelOrderRequest cancelOrderRequest
     ) {
-        orderService.cancelOrder(accessToken, orderId, cancelOrderRequest);
+        orderService.cancelOrder(username, orderId, cancelOrderRequest);
         return new ResponseEntity<>(OK);
     }
 }

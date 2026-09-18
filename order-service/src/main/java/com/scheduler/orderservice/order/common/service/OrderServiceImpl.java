@@ -34,12 +34,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderResponse createOrder(
-            String accessToken,
+            String username,
             OrderType orderType, OrderCategory orderCategory, Vendor vendor,
             PreOrderRequest preOrderRequest
     ) {
 
-        OrderCheckoutInfo orderCheckoutInfo = orderCalculateFactory.createOrderCalculator(accessToken, orderType, orderCategory, vendor, preOrderRequest);
+        OrderCheckoutInfo orderCheckoutInfo = orderCalculateFactory.createOrderCalculator(username, orderType, orderCategory, vendor, preOrderRequest);
 
         CreateOrderGateway createOrderGateway = paymentGatewayFactory.getVendor(vendor);
 
@@ -48,9 +48,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(
-            String accessToken, String orderId, CancelOrderRequest cancelOrderRequest
+            String username, String orderId, CancelOrderRequest cancelOrderRequest
     ) {
-        StudentResponse studentInfo = memberServiceClient.getStudentInfo(accessToken);
+        StudentResponse studentInfo = memberServiceClient.findStudentByUsername(username);
 
         CancelOrderPayload cancelPayload = orderTransactionService
                 .cancelOrderEvent(orderId, studentInfo, cancelOrderRequest);

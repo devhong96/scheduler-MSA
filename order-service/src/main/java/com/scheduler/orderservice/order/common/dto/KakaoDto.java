@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class KakaoDto {
 
-    private String accessToken;
+    private String username;
     private String tid;
     private String studentId;
     private long createdAt;

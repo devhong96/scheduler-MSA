@@ -11,9 +11,9 @@ import static com.scheduler.orderservice.order.common.dto.OrderResponseList.Orde
 public interface OrderService {
 
     OrderResponse createOrder(
-            String accessToken,
+            String username,
             OrderType orderType, OrderCategory orderCategory, Vendor vendor,
             PreOrderRequest preOrderRequest);
 
-    void cancelOrder(String accessToken, String orderId, CancelOrderRequest cancelOrderRequest);
+    void cancelOrder(String username, String orderId, CancelOrderRequest cancelOrderRequest);
 }

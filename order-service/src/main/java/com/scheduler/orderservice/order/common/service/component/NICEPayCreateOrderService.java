@@ -37,7 +37,7 @@ public class NICEPayCreateOrderService implements CreateOrderGateway {
         String orderCategoryIdPath = info.getOrderCategory().toString().toLowerCase();
 
         if(info.getOrderType().equals(DIRECT)) {
-            redisOrderCache.saveDirectOrderInfo(info.getOrderId(), new DirectOrderDto(info.getAccessToken(),
+            redisOrderCache.saveDirectOrderInfo(info.getOrderId(), new DirectOrderDto(info.getUsername(),
                     info.getProductId(), info.getProductName(), info.getTotalQuantity()));
         }
 
