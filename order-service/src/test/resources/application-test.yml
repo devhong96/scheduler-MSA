@@ -1,0 +1,108 @@
+spring:
+  cloud:
+    openfeign:
+      okhttp:
+        enabled: true
+  jpa:
+    database: h2
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource: # jdbc
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;
+    username: sa
+    password:
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  mail: #email
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        protocol: smtp
+
+  sql:
+    init:
+      mode: embedded
+  security:
+    user:
+      name: user
+      password: 123
+  messages:
+    basename: errors
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+kakao :
+  kakao-url:
+    ready-url : "https://open-api.kakaopay.com/online/v1/payment/ready"
+    approve-url : "https://open-api.kakaopay.com/online/v1/payment/approve"
+    cancel-url : "https://open-api.kakaopay.com/online/v1/payment/cancel"
+    order-url : "https://open-api.kakaopay.com/online/v1/payment/order"
+    base-url: "http://localhost:8000/"
+  kakao-client :
+    #   가맹점 코드, 10자
+    cid : "TC0ONETIME"
+    #   가맹점 회원 id
+    partner_user_id : "partner_user_id"
+    secret-key : "DEVD8AC3102652E8E61F9ED9847C85036F648A19"
+
+naver :
+  naver-header:
+    client-id: 'X-Naver-Client-Id'
+    client-secret: 'X-Naver-Client-Secret'
+    chain-id: 'X-NaverPay-Chain-Id'
+    idempotency-key: 'X-NaverPay-Idempotency-Key'
+  naver-url:
+    apply-url: '/naverpay/payments/v2.2/apply/payment'
+    cancel-url: '/naverpay/payments/v1/cancel'
+    history-url: '/naverpay/payments/v2.2/list/history'
+    purchase-confirm-url: '/naverpay/payments/v1/purchase-confirm'
+    base-url: 'https://seho0218.synology.me:8087/scheduler-order-service/'
+  naver-client:
+    client-id:
+    client-secret:
+    chain-Id:
+    partner-id:
+
+nicepay :
+  nice-url :
+    payment-url : 'https://sandbox-api.nicepay.co.kr/v1/payments/'
+    check-amount-url : 'https://sandbox-api.nicepay.co.kr/v1/check-amount'
+  nice-client:
+    clientKey :
+    secretKey :
+
+scheduler_order_service_url: http://localhost:8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    port: 3000
+
+jwt:
+  secret_key: "ssssseeesasdcasdcasdcasdcasdcasdlckjkjlkjkjkjkjjjsadjasdjasjdasjdajd"
+
